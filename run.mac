@@ -1,0 +1,10 @@
+/gps/ene/mono 14.1 MeV
+/gps/pos/type Plane
+/gps/pos/shape Annulus
+/gps/pos/inner_radius 39 cm
+/gps/pos/radius 40 cm
+/gps/pos/rot2 0 0 1
+/gps/ang/type iso
+
+/vis/geometry/set/forceSolid logicTorus 1 1
+/vis/geometry/set/colour logicTorus 1 1 0 0 1
