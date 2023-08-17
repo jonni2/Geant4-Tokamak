@@ -9,6 +9,9 @@
 #include "G4HadronPhysicsFTFP_BERT_TRV.hh"
 #include "G4RadioactiveDecayPhysics.hh"
 #include "G4OpticalPhysics.hh"
+#include "globals.hh"
+#include "G4ParticleHPManager.hh"
+#include "NeutronHPphysics.hh"
 
 // class MyPhysicsList : public G4VUserPhysicsList {
 class MyPhysicsList : public G4VModularPhysicsList {
@@ -19,6 +22,7 @@ public:
     
     // virtual void ConstructParticle();
     // virtual void ConstructProcess();
+    virtual void SetCuts();
     
 };
 

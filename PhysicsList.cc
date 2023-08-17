@@ -13,11 +13,17 @@ MyPhysicsList::MyPhysicsList()
     // RegisterPhysics(new G4DecayPhysics());
     // RegisterPhysics(new G4RadioactiveDecayPhysics()); //crash
     
+    // Neutron physics
+    RegisterPhysics(new NeutronHPphysics("neutronHP"));
+    
     // Photon physics
     // RegisterPhysics(new G4OpticalPhysics);
 }
 
 MyPhysicsList::~MyPhysicsList()
+{}
+
+void MyPhysicsList::SetCuts()
 {}
 
 // here we register all the particles required in the simulation

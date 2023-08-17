@@ -32,9 +32,12 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4Torus* torus = new G4Torus("torus", 0*cm, 20*cm, 40*cm, 0*deg, 360*deg);
     // G4Material* graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
     
-    G4Material* plasma = new G4Material("plasma", (5*10^-4)*g/m3,2);
+    // Plasma as mixture of 90% D and 10% T
+    G4Material* plasma = new G4Material("plasma", (5*0.0001)*g/m3,1);
+    plasma->AddElement(nist->FindOrBuildElement("H"), 1); // Deuterium
+    // plasma->AddElement(nist->FindOrBuildElement(""), ); // Tritium
     
-    G4LogicalVolume* logicTorus = new G4LogicalVolume(torus, graphite, "logicTorus");
+    G4LogicalVolume* logicTorus = new G4LogicalVolume(torus, plasma, "logicTorus");
     G4RotationMatrix* rot = new G4RotationMatrix;
     rot->rotateX(90*deg);
     G4VPhysicalVolume* physTorus = new G4PVPlacement(rot, G4ThreeVector(0., 0., 0.), logicTorus, "physTorus", logicWorld, false, 0, true);
