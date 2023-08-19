@@ -6,5 +6,5 @@ To build the project:
 mkdir build && cd build
 cmake ..
 make
-./Graphite_Target
+./project
 ```
