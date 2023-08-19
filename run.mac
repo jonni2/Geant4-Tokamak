@@ -1,8 +1,8 @@
 /gps/ene/mono 14.1 MeV
 /gps/pos/type Plane
 /gps/pos/shape Annulus
-/gps/pos/inner_radius 39 cm
-/gps/pos/radius 40 cm
+/gps/pos/inner_radius 400 cm
+/gps/pos/radius 401 cm
 /gps/pos/rot2 0 0 1
 /gps/ang/type iso
 
@@ -11,3 +11,6 @@
 
 /vis/geometry/set/forceSolid logicWall 1 1
 /vis/geometry/set/colour logicWall 1 0.5 0.5 0.5 0.3
+
+/vis/geometry/set/forceSolid logicCS 1 1
+/vis/geometry/set/colour logicCS 1 0.7 0.5 0.5 0.9
