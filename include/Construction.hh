@@ -6,6 +6,8 @@
 #include "G4VPhysicalVolume.hh"
 #include "G4Box.hh"
 #include "G4Torus.hh"
+#include "G4Sphere.hh"
+#include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVPlacement.hh"
 #include "G4NistManager.hh"

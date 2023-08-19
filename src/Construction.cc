@@ -12,9 +12,9 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4NistManager* nist = G4NistManager::Instance();
     
     // Dimensions of the world mother volume
-    G4double xWorld = 1.0*m;
-    G4double yWorld = 1.0*m;
-    G4double zWorld = 1.0*m;
+    G4double xWorld = 10.0*m;
+    G4double yWorld = 10.0*m;
+    G4double zWorld = 10.0*m;
     
     // World solid volume
     G4Box* solidWorld = new G4Box("World", xWorld, yWorld, zWorld);
@@ -29,7 +29,7 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", 0, false, 0, true);
     
     // Plasma torus
-    G4Torus* torus = new G4Torus("torus", 0*cm, 20*cm, 40*cm, 0*deg, 360*deg);
+    G4Torus* torus = new G4Torus("torus", 0*cm, 100*cm, 400*cm, 0*deg, 360*deg);
     // G4Material* graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
     
     // Plasma as mixture of 90% D and 10% T
@@ -41,6 +41,18 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4RotationMatrix* rot = new G4RotationMatrix;
     rot->rotateX(90*deg);
     G4VPhysicalVolume* physTorus = new G4PVPlacement(rot, G4ThreeVector(0., 0., 0.), logicTorus, "physTorus", logicWorld, false, 0, true);
+    
+    // Central Solenoid
+    G4Tubs* CS = new G4Tubs("CS1", 80*cm, 200*cm, 700*cm, 0*deg, 360*deg);
+    G4Material* CSMat = nist->FindOrBuildMaterial("G4_Nb");
+    G4LogicalVolume* logicCS = new G4LogicalVolume(CS, CSMat, "logicCS");
+    G4VPhysicalVolume* physCS = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicCS, "physCS", logicWorld, false, 0, true);
+    
+    // Tokamak 1st wall
+    G4Sphere* wall = new G4Sphere("wall", 620*cm, 630*cm, 0*deg, 360*deg, 0*deg, 180*deg);
+    G4Material* wallMat = nist->FindOrBuildMaterial("G4_Li");
+    G4LogicalVolume* logicWall = new G4LogicalVolume(wall, wallMat, "logicWall");
+    G4VPhysicalVolume* physWall = new G4PVPlacement(0, G4ThreeVector(0, 0, 0), logicWall, "physWall", logicWorld, false, 0, true);
     
     return physWorld;
 }
