@@ -24,6 +24,9 @@ public:
     
 private:
     
+    G4Material *worldMat, *Nb3Sn, *Incoloy908, *SS316;
+    void DefineMaterials();
+    
 };
 
 #endif
