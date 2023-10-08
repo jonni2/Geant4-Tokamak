@@ -1,0 +1,19 @@
+# clang-format file
+
+Language: Cpp
+BasedOnStyle: Google
+ColumnLimit: 108
+NamespaceIndentation: All
+SortIncludes: false
+IndentWidth: 4
+AccessModifierOffset: -2
+PenaltyBreakComment: 30
+PenaltyExcessCharacter: 30
+AlignAfterOpenBracket: Align
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BinPackParameters: false
+AlwaysBreakTemplateDeclarations: yes
+ReflowComments: false
+BinPackArguments: false
+BinPackParameters: false
