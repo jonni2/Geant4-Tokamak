@@ -1,8 +1,8 @@
 /gps/ene/mono 14.1 MeV
 /gps/pos/type Plane
 /gps/pos/shape Annulus
-/gps/pos/inner_radius 400 cm
-/gps/pos/radius 401 cm
+/gps/pos/inner_radius 627.5 cm
+/gps/pos/radius 630 cm
 /gps/pos/rot2 0 0 1
 /gps/ang/type iso
 
