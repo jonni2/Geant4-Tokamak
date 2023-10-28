@@ -1,6 +1,23 @@
+# Initialization commands
 /vis/open OGL
 /vis/viewer/set/viewpointVector 1 1 1
 /vis/viewer/set/autoRefresh true
 /vis/drawVolume
 /vis/scene/add/trajectories smooth
 /vis/scene/endOfEventAction accumulate
+
+
+# Visualization of tokamak components
+
+# Plasma
+# /vis/geometry/set/colour name depth R G B opacity
+/vis/geometry/set/forceSolid logicPlasma 1 1
+/vis/geometry/set/colour logicPlasma 1 1 0 0 1
+
+# Central solenoid
+/vis/geometry/set/forceSolid logicCS 1 1
+/vis/geometry/set/colour logicCS 1 0.7 0.5 0.5 1
+
+# 1st wall
+/vis/geometry/set/forceSolid logicWall_1 1 1
+/vis/geometry/set/colour logicWall_1 1 0.5 0.5 0.5 1
