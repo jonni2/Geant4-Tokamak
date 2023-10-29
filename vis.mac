@@ -20,4 +20,16 @@
 
 # 1st wall
 /vis/geometry/set/forceSolid logicWall_1 1 1
-/vis/geometry/set/colour logicWall_1 1 0.5 0.5 0.5 1
+/vis/geometry/set/colour logicWall_1 1 0.3 0.3 0.3 1
+
+# Toroidal Field Coils (TFC)
+/vis/geometry/set/forceSolid logicTFC 1 1
+/vis/geometry/set/colour logicTFC 1 0.6 0.6 0.6 1
+
+## Vacuum Vessel (VV)
+/vis/geometry/set/forceSolid logicVV 1 1
+/vis/geometry/set/colour logicVV 1 0.9 0.9 0.9 1
+
+## Bioshield
+/vis/geometry/set/forceSolid logicBioshield 1 1
+/vis/geometry/set/colour logicBioshield 1 0.4 0.4 0.4 1
