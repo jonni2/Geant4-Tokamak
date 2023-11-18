@@ -1,3 +1,6 @@
+# Implementation of the anular source of 14.1 MeV neutrons
+# gps is the "General Particle Source" of Geant4
+
 /gps/ene/mono 14.1 MeV
 /gps/pos/type Plane
 /gps/pos/shape Annulus
