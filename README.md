@@ -3,8 +3,8 @@ This project simulates, by using the software Geant4, the production of neutrons
 The tokamak is designed as a series of toroidal and spherical layers which exemplify the layers and materials used in ITER, for example the $`1^{st}`$ wall and the central solenoid.
 The neutrons are produced by a toroidal source in the center of the tokamak and have an energy of 14.1 MeV.
 
-#![Tokamak_1](Images/Tokamak_1.png)
-<img src='Images/Tokamak_1.png' width='100'>
+# [Tokamak_1](Images/Tokamak_1.png)
+<img src='Images/Tokamak_1.png' width='500'>
 
 To build the project:
 ```
