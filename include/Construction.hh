@@ -25,7 +25,7 @@ public:
 private:
     
     // Basic material
-    G4Material *worldMat, *Nb3Sn, *Incoloy908, *SS316, *Al2O3, *plasma_mat;
+    G4Material *worldMat, *Nb3Sn, *Incoloy908, *SS316, *Al2O3, *plasma_mat, *Concrete;
     
     // Materials for tokamak components
     G4Material *CS_mat, *Wall_mat;

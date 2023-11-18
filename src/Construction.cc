@@ -66,6 +66,8 @@ void MyDetectorConstruction::DefineMaterials()
     // Wall1_mat = new G4Material();
     Wall_mat = nist->FindOrBuildMaterial("G4_Li");
     
+    // Concrete for Bioshield
+    Concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
     
 }
 
@@ -73,9 +75,11 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
 {
     
     // Dimensions of the world mother volume
-    G4double xWorld = 10.0*m;
-    G4double yWorld = 10.0*m;
-    G4double zWorld = 10.0*m;
+    G4double xWorld = 20.0*m;
+    G4double yWorld = 20.0*m;
+    G4double zWorld = 20.0*m;
+    
+    G4double alpha = 270; // Revolution Angle
     
     // World solid volume
     G4Box* solidWorld = new G4Box("World", xWorld, yWorld, zWorld);
@@ -84,26 +88,43 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     // World logical volume: comprises the material
     G4LogicalVolume* logicWorld = new G4LogicalVolume(solidWorld, worldMat, "logicWorld");
     
-    // World Physical volume: it is the ONLY which must be PVPlacement
+    // World Physical volume
     G4VPhysicalVolume* physWorld = new G4PVPlacement(0, G4ThreeVector(0., 0., 0.), logicWorld, "physWorld", 0, false, 0, true);
     
     // Plasma torus
-    G4Torus* plasma = new G4Torus("plasma", 0*cm, 225.5*cm, 627.5*cm, 0*deg, 360*deg);
+    G4Torus* plasma = new G4Torus("plasma", 0*cm, 225.5*cm, 627*cm, 0*deg, alpha*deg);
     
-    G4LogicalVolume* logicPlasma = new G4LogicalVolume(plasma, plasma_mat, "logicTorus");
+    G4LogicalVolume* logicPlasma = new G4LogicalVolume(plasma, plasma_mat, "logicPlasma");
+    // Rotation matrix for circular elements
     G4RotationMatrix* rot = new G4RotationMatrix;
     rot->rotateX(90*deg);
     G4VPhysicalVolume* physPlasma = new G4PVPlacement(rot, G4ThreeVector(0., 0., 0.), logicPlasma, "physPlasma", logicWorld, false, 0, true);
     
     // Central Solenoid
-    G4Tubs* CS = new G4Tubs("CS1", 80*cm, 200*cm, 600*cm, 0*deg, 360*deg);
+    G4Tubs* CS = new G4Tubs("CS1", 80*cm, 200*cm, 1400*cm, 0*deg, alpha*deg);
     G4LogicalVolume* logicCS = new G4LogicalVolume(CS, CS_mat, "logicCS");
     G4VPhysicalVolume* physCS = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicCS, "physCS", logicWorld, false, 0, true);
     
     // Tokamak 1st wall
-    G4Sphere* wall = new G4Sphere("wall", 620*cm, 630*cm, 0*deg, 360*deg, 0*deg, 180*deg);
-    G4LogicalVolume* logicWall = new G4LogicalVolume(wall, Wall_mat, "logicWall");
-    G4VPhysicalVolume* physWall = new G4PVPlacement(0, G4ThreeVector(0, 0, 0), logicWall, "physWall", logicWorld, false, 0, true);
+    G4Torus* Wall_1 = new G4Torus("Wall_1", 225.5*cm, 226.5*cm, 627*cm, 0*deg, alpha*deg);
+    G4LogicalVolume* logicWall_1 = new G4LogicalVolume(Wall_1, Wall_mat, "logicWall_1");
+    G4VPhysicalVolume* physWall = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1, "physWall", logicWorld, false, 0, true);
+    
+    // Toroidal Field Coils (TFC)
+    G4Torus* TFC = new G4Torus("TFC", 307.1*cm, 407.1*cm, 627*cm, 0*deg, alpha*deg);
+    G4LogicalVolume* logicTFC = new G4LogicalVolume(TFC, SS316, "logicTFC");
+    G4VPhysicalVolume* physTFC = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicTFC, "physTFC", logicWorld, false, 0, true);
+    
+    // Vacuum Vessel (VV)
+    G4Torus* VV = new G4Torus("VV", 270*cm, 305.7*cm, 628.5*cm, 0*deg, alpha*deg);
+    G4LogicalVolume* logicVV = new G4LogicalVolume(VV, SS316, "logicVV");
+    G4VPhysicalVolume* physVV = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicVV, "physVV", logicWorld, false, 0, true);
+    
+    // Biological shield (concrete)
+    G4Sphere* Bioshield = new G4Sphere("Bioshield", 1413.2*cm, 1613*cm, 0*deg, alpha*deg, 0*deg, 180*deg);
+    G4LogicalVolume* logicBioshield = new G4LogicalVolume(Bioshield, Concrete, "logicBioshield");
+    G4VPhysicalVolume* physBioshield = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicBioshield, "physBioshield", logicWorld, false, 0, true);
+    
     
     return physWorld;
 }
