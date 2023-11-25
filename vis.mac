@@ -5,7 +5,7 @@
 /vis/drawVolume
 /vis/scene/add/trajectories smooth
 /vis/scene/endOfEventAction accumulate
-
+# /vis/scene/add/axes 0 0 0 1 m
 
 # Visualization of tokamak components
 
@@ -33,3 +33,7 @@
 ## Bioshield
 /vis/geometry/set/forceSolid logicBioshield 1 1
 /vis/geometry/set/colour logicBioshield 1 0.4 0.4 0.4 0.5
+/vis/geometry/set/forceSolid logicBioshield_up 1 1
+/vis/geometry/set/colour logicBioshield_up 1 0.4 0.4 0.4 0.5
+/vis/geometry/set/forceSolid logicBioshield_down 1 1
+/vis/geometry/set/colour logicBioshield_down 1 0.4 0.4 0.4 0.5

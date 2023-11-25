@@ -71,6 +71,7 @@ void MyDetectorConstruction::DefineMaterials()
     
 }
 
+// Construction of all the components of the tokamak
 G4VPhysicalVolume* MyDetectorConstruction::Construct()
 {
     
@@ -120,10 +121,27 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4LogicalVolume* logicVV = new G4LogicalVolume(VV, SS316, "logicVV");
     G4VPhysicalVolume* physVV = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicVV, "physVV", logicWorld, false, 0, true);
     
-    // Biological shield (concrete)
-    G4Sphere* Bioshield = new G4Sphere("Bioshield", 1413.2*cm, 1613*cm, 0*deg, alpha*deg, 0*deg, 180*deg);
+    // Biological shield (concrete) lateral
+    G4Tubs* Bioshield = new G4Tubs("Bioshield", 1413.2*cm, 1613*cm, 1413*cm, 0*deg, alpha*deg);
+    
+    // G4Sphere* Bioshield = new G4Sphere("Bioshield", 1413.2*cm, 1613*cm, 0*deg, alpha*deg, 0*deg, 180*deg);
     G4LogicalVolume* logicBioshield = new G4LogicalVolume(Bioshield, Concrete, "logicBioshield");
+    
     G4VPhysicalVolume* physBioshield = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicBioshield, "physBioshield", logicWorld, false, 0, true);
+    
+    // Bioshield up
+    G4Tubs* Bioshield_up = new G4Tubs("Bioshield_up", 0*cm, 1613*cm, 100*cm, 0*deg, alpha*deg);
+    
+    G4LogicalVolume* logicBioshield_up = new G4LogicalVolume(Bioshield_up, Concrete, "logicBioshield_up");
+    
+    G4VPhysicalVolume* physBioshield_up = new G4PVPlacement(rot, G4ThreeVector(0,1513*cm, 0), logicBioshield_up, "physBioshield_up", logicWorld, false, 0, true);
+    
+    // Bioshield down
+    G4Tubs* Bioshield_down = new G4Tubs("Bioshield_down", 0*cm, 1613*cm, 100*cm, 0*deg, alpha*deg);
+    
+    G4LogicalVolume* logicBioshield_down = new G4LogicalVolume(Bioshield_down, Concrete, "logicBioshield_down");
+    
+    G4VPhysicalVolume* physBioshield_down = new G4PVPlacement(rot, G4ThreeVector(0,-1513*cm, 0), logicBioshield_down, "physBioshield_down", logicWorld, false, 0, true);
     
     
     return physWorld;
