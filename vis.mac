@@ -26,14 +26,18 @@
 /vis/geometry/set/forceSolid logicTFC 1 1
 /vis/geometry/set/colour logicTFC 1 0.6 0.6 0.6 1
 
-## Vacuum Vessel (VV)
+# Vacuum Vessel (VV)
 /vis/geometry/set/forceSolid logicVV 1 1
 /vis/geometry/set/colour logicVV 1 0.9 0.9 0.9 1
 
-## Bioshield
+# Bioshield
 /vis/geometry/set/forceSolid logicBioshield 1 1
-/vis/geometry/set/colour logicBioshield 1 0.4 0.4 0.4 0.5
+/vis/geometry/set/colour logicBioshield 1 0.4 0.4 0.4 0.8
 /vis/geometry/set/forceSolid logicBioshield_up 1 1
-/vis/geometry/set/colour logicBioshield_up 1 0.4 0.4 0.4 0.5
+/vis/geometry/set/colour logicBioshield_up 1 0.4 0.4 0.4 0.8
 /vis/geometry/set/forceSolid logicBioshield_down 1 1
-/vis/geometry/set/colour logicBioshield_down 1 0.4 0.4 0.4 0.5
+/vis/geometry/set/colour logicBioshield_down 1 0.4 0.4 0.4 0.8
+
+# Cryostat
+/vis/geometry/set/forceSolid logicCryostat 1 1
+/vis/geometry/set/colour logicCryostat 1 0.9 0.9 0.9 1
