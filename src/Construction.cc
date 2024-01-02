@@ -53,7 +53,8 @@ void MyDetectorConstruction::DefineMaterials()
     Al2O3->AddElement(nist->FindOrBuildElement("O"), 3);
     
     // Tungsten for 1st wall
-    W = nist->FindOrBuildElement("W");
+    W = new G4Material("W", 19.3*g/cm3, 1);
+    W->AddElement(nist->FindOrBuildElement("W"), 1);
     
     // Central solenoid - density is obtained as harmonic weighted mean
     CS_mat = new G4Material("CS1", 6.72*g/cm3, 3);
@@ -65,6 +66,13 @@ void MyDetectorConstruction::DefineMaterials()
     // Fist wall of tungsten/Lithium
     // Wall1_mat = new G4Material();
     Wall_mat = nist->FindOrBuildMaterial("G4_Li");
+    
+    // Heat sink of 1st wall, made of CuCrZr
+    // file:///C:/Users/User/Downloads/PNA%20372%20-%20CuCrZr-C18160_EN-1.pdf
+    HeatSink_mat = new G4Material("HeatSink_mat", 8.9*g/cm3, 3);
+    HeatSink_mat->AddElement(nist->FindOrBuildElement("Cu"), 98.8*perCent);
+    HeatSink_mat->AddElement(nist->FindOrBuildElement("Cr"), 1*perCent);
+    HeatSink_mat->AddElement(nist->FindOrBuildElement("Zr"), 0.2*perCent);
     
     // Concrete for Bioshield
     Concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
@@ -107,9 +115,14 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4VPhysicalVolume* physCS = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicCS, "physCS", logicWorld, false, 0, true);
     
     // Tokamak 1st wall
-    G4Torus* Wall_1 = new G4Torus("Wall_1", 225.5*cm, 226.5*cm, 627*cm, 0*deg, alpha*deg);
-    G4LogicalVolume* logicWall_1 = new G4LogicalVolume(Wall_1, Wall_mat, "logicWall_1");
+    G4Torus* Wall_1 = new G4Torus("Wall_1", 226*cm, 227*cm, 627*cm, 0*deg, alpha*deg);
+    G4LogicalVolume* logicWall_1 = new G4LogicalVolume(Wall_1, W, "logicWall_1");
     G4VPhysicalVolume* physWall = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1, "physWall", logicWorld, false, 0, true);
+    
+    // 1st Wall heat sink
+    G4Torus* Wall_1_HeatSink = new G4Torus("Wall_1_HeatSink", 227*cm, 229*cm, 627*cm, 0*deg, alpha*deg);
+    G4LogicalVolume* logicWall_1_HeatSink = new G4LogicalVolume(Wall_1_HeatSink, HeatSink_mat, "logicWall_1_HeatSink");
+    G4VPhysicalVolume* physWall_HeatSink = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1_HeatSink, "physWall", logicWorld, false, 0, true);
     
     // Toroidal Field Coils (TFC)
     G4Torus* TFC = new G4Torus("TFC", 307.1*cm, 407.1*cm, 627*cm, 0*deg, alpha*deg);
