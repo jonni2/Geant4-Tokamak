@@ -114,25 +114,34 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4LogicalVolume* logicCS = new G4LogicalVolume(CS, CS_mat, "logicCS");
     G4VPhysicalVolume* physCS = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicCS, "physCS", logicWorld, false, 0, true);
     
-    // Tokamak 1st wall
-    G4Torus* Wall_1 = new G4Torus("Wall_1", 226*cm, 227*cm, 627*cm, 0*deg, alpha*deg);
+    // Tokamak 1st wall (Tungsten)
+    G4Torus* Wall_1 = new G4Torus("Wall_1", 226*cm, 227*cm, 627*cm, 0*deg, (alpha+40)*deg);
     G4LogicalVolume* logicWall_1 = new G4LogicalVolume(Wall_1, W, "logicWall_1");
     G4VPhysicalVolume* physWall = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1, "physWall", logicWorld, false, 0, true);
     
     // 1st Wall heat sink
-    G4Torus* Wall_1_HeatSink = new G4Torus("Wall_1_HeatSink", 227*cm, 229*cm, 627*cm, 0*deg, alpha*deg);
+    G4Torus* Wall_1_HeatSink = new G4Torus("Wall_1_HeatSink", 227*cm, 229*cm, 627*cm, 0*deg, (alpha+30)*deg);
     G4LogicalVolume* logicWall_1_HeatSink = new G4LogicalVolume(Wall_1_HeatSink, HeatSink_mat, "logicWall_1_HeatSink");
     G4VPhysicalVolume* physWall_HeatSink = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1_HeatSink, "physWall", logicWorld, false, 0, true);
     
-    // Toroidal Field Coils (TFC)
+    // Blanket shield block
+    G4Torus* BLK_shield = new G4Torus("BLK_shield", 229*cm, 271*cm, 627*cm, 0*deg, (alpha+20)*deg);
+    G4LogicalVolume* logicBLK_shield = new G4LogicalVolume(BLK_shield, SS316, "logicBLK_shield");
+    G4VPhysicalVolume* physBLK_shield = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_shield, "physWall", logicWorld, false, 0, true);
+    
+    
+    // Vacuum Vessel (VV)
+    G4Torus* VV = new G4Torus("VV", 270*cm, 305.7*cm, 628.5*cm, 0*deg, (alpha+10)*deg);
+    G4LogicalVolume* logicVV = new G4LogicalVolume(VV, SS316, "logicVV");
+    G4VPhysicalVolume* physVV = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicVV, "physVV", logicWorld, false, 0, true);
+    
+    // Toroidal Field Coils (TFC), which are OUTSIDE the VV
     G4Torus* TFC = new G4Torus("TFC", 307.1*cm, 407.1*cm, 627*cm, 0*deg, alpha*deg);
     G4LogicalVolume* logicTFC = new G4LogicalVolume(TFC, SS316, "logicTFC");
     G4VPhysicalVolume* physTFC = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicTFC, "physTFC", logicWorld, false, 0, true);
     
-    // Vacuum Vessel (VV)
-    G4Torus* VV = new G4Torus("VV", 270*cm, 305.7*cm, 628.5*cm, 0*deg, alpha*deg);
-    G4LogicalVolume* logicVV = new G4LogicalVolume(VV, SS316, "logicVV");
-    G4VPhysicalVolume* physVV = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicVV, "physVV", logicWorld, false, 0, true);
+    // Test: 18 TFCs
+    // G4Tubs* TFCi = new G4Tubs("TFCi", 307.1*cm, 407.1*cm, );
     
     // Cryostat
     G4Tubs* Cryostat = new G4Tubs("Cryostat", 1358.2*cm, 1413.2*cm, 1413*cm, 0*deg, alpha*deg);

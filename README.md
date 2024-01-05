@@ -4,9 +4,9 @@ The tokamak is designed as a series of toroidal and spherical layers which exemp
 The neutrons are produced by a toroidal source in the center of the tokamak and have an energy of 14.1 MeV.
 
 # [Tokamak_2](Images/Tokamak_2.png)
-<img src='Images/Tokamak_2.png' width='500'>
+<img src='Images/Tokamak_3.png' width='500'>
 
-To build the project:
+To build the project on Linux:
 ```
 mkdir build && cd build
 cmake ..
