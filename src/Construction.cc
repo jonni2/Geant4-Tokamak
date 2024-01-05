@@ -84,9 +84,9 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
 {
     
     // Dimensions of the world mother volume
-    G4double xWorld = 20.0*m;
-    G4double yWorld = 20.0*m;
-    G4double zWorld = 20.0*m;
+    G4double xWorld = 18.0*m;
+    G4double yWorld = 18.0*m;
+    G4double zWorld = 18.0*m;
     
     G4double alpha = 270; // Revolution Angle
     
@@ -109,8 +109,8 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     rot->rotateX(90*deg);
     G4VPhysicalVolume* physPlasma = new G4PVPlacement(rot, G4ThreeVector(0., 0., 0.), logicPlasma, "physPlasma", logicWorld, false, 0, true);
     
-    // Central Solenoid
-    G4Tubs* CS = new G4Tubs("CS1", 80*cm, 200*cm, 1400*cm, 0*deg, alpha*deg);
+    // Central Solenoid, 13m high (650 cm half z)
+    G4Tubs* CS = new G4Tubs("CS1", 80*cm, 200*cm, 650*cm, 0*deg, alpha*deg);
     G4LogicalVolume* logicCS = new G4LogicalVolume(CS, CS_mat, "logicCS");
     G4VPhysicalVolume* physCS = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicCS, "physCS", logicWorld, false, 0, true);
     
@@ -144,14 +144,14 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     // G4Tubs* TFCi = new G4Tubs("TFCi", 307.1*cm, 407.1*cm, );
     
     // Cryostat
-    G4Tubs* Cryostat = new G4Tubs("Cryostat", 1358.2*cm, 1413.2*cm, 1413*cm, 0*deg, alpha*deg);
+    G4Tubs* Cryostat = new G4Tubs("Cryostat", 1358.2*cm, 1413.2*cm, 1213*cm, 0*deg, alpha*deg);
     
     G4LogicalVolume* logicCryostat = new G4LogicalVolume(Cryostat, SS316, "logicCryostat");
     
     G4VPhysicalVolume* physCryostat = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicCryostat, "physCryostat", logicWorld, false, 0, true);
     
     // Biological shield (concrete) lateral
-    G4Tubs* Bioshield = new G4Tubs("Bioshield", 1413.2*cm, 1613*cm, 1413*cm, 0*deg, alpha*deg);
+    G4Tubs* Bioshield = new G4Tubs("Bioshield", 1413.2*cm, 1613*cm, 1213*cm, 0*deg, alpha*deg);
     
     // G4Sphere* Bioshield = new G4Sphere("Bioshield", 1413.2*cm, 1613*cm, 0*deg, alpha*deg, 0*deg, 180*deg);
     G4LogicalVolume* logicBioshield = new G4LogicalVolume(Bioshield, Concrete, "logicBioshield");
@@ -163,14 +163,14 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     
     G4LogicalVolume* logicBioshield_up = new G4LogicalVolume(Bioshield_up, Concrete, "logicBioshield_up");
     
-    G4VPhysicalVolume* physBioshield_up = new G4PVPlacement(rot, G4ThreeVector(0,1513*cm, 0), logicBioshield_up, "physBioshield_up", logicWorld, false, 0, true);
+    G4VPhysicalVolume* physBioshield_up = new G4PVPlacement(rot, G4ThreeVector(0,1313*cm, 0), logicBioshield_up, "physBioshield_up", logicWorld, false, 0, true);
     
     // Bioshield down
     G4Tubs* Bioshield_down = new G4Tubs("Bioshield_down", 0*cm, 1613*cm, 100*cm, 0*deg, alpha*deg);
     
     G4LogicalVolume* logicBioshield_down = new G4LogicalVolume(Bioshield_down, Concrete, "logicBioshield_down");
     
-    G4VPhysicalVolume* physBioshield_down = new G4PVPlacement(rot, G4ThreeVector(0,-1513*cm, 0), logicBioshield_down, "physBioshield_down", logicWorld, false, 0, true);
+    G4VPhysicalVolume* physBioshield_down = new G4PVPlacement(rot, G4ThreeVector(0,-1313*cm, 0), logicBioshield_down, "physBioshield_down", logicWorld, false, 0, true);
     
     return physWorld;
 }
