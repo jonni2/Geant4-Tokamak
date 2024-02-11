@@ -90,6 +90,8 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     
     G4double alpha = 270; // Revolution Angle
     
+    G4double R = 627; // Internal radius of tokamak
+    
     // World solid volume
     G4Box* solidWorld = new G4Box("World", xWorld, yWorld, zWorld);
     
@@ -131,17 +133,34 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     
     
     // Vacuum Vessel (VV)
-    G4Torus* VV = new G4Torus("VV", 270*cm, 305.7*cm, 628.5*cm, 0*deg, (alpha+10)*deg);
+    G4Torus* VV = new G4Torus("VV", 270*cm, 305.7*cm, 627*cm, 0*deg, (alpha+10)*deg);
     G4LogicalVolume* logicVV = new G4LogicalVolume(VV, SS316, "logicVV");
     G4VPhysicalVolume* physVV = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicVV, "physVV", logicWorld, false, 0, true);
     
     // Toroidal Field Coils (TFC), which are OUTSIDE the VV
-    G4Torus* TFC = new G4Torus("TFC", 307.1*cm, 407.1*cm, 627*cm, 0*deg, alpha*deg);
-    G4LogicalVolume* logicTFC = new G4LogicalVolume(TFC, SS316, "logicTFC");
-    G4VPhysicalVolume* physTFC = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicTFC, "physTFC", logicWorld, false, 0, true);
+    // G4Torus* TFC = new G4Torus("TFC", 307.1*cm, 407.1*cm, 627*cm, 0*deg, alpha*deg);
+    // G4LogicalVolume* logicTFC = new G4LogicalVolume(TFC, SS316, "logicTFC");
+    // G4VPhysicalVolume* physTFC = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicTFC, "physTFC", logicWorld, false, 0, true);
     
     // Test: 18 TFCs
-    // G4Tubs* TFCi = new G4Tubs("TFCi", 307.1*cm, 407.1*cm, );
+    
+    G4Tubs* TFCi = new G4Tubs("TFCi", 307.1*cm, 407.1*cm, 30*cm, 0*deg, 360*deg);
+    G4LogicalVolume* logicTFCi = new G4LogicalVolume(TFCi, SS316, "logicTFCi");
+    // G4VPhysicalVolume* physTFCi = new G4PVPlacement(rot_TFC, G4ThreeVector(627*cm,0,0), logicTFCi, "physTFCi", logicWorld, false, 0, true);
+    
+    // 18 TFCs
+    G4RotationMatrix* rot_TFC; //= new G4RotationMatrix;
+    for(int i = 0; i != 18; ++i) {        
+        
+        G4double angle = i*360/18;
+        G4double xTFC = R*std::cos(angle*2*M_PI/360);
+        G4double yTFC = R*std::sin(angle*2*M_PI/360);
+        
+        rot_TFC = new G4RotationMatrix;
+        rot_TFC->rotateY(angle*deg);
+        physTFCi = new G4PVPlacement(rot_TFC, G4ThreeVector(xTFC*cm,0,yTFC*cm), logicTFCi, "physTFCi", logicWorld, false, i, true);
+        
+    }
     
     // Cryostat
     G4Tubs* Cryostat = new G4Tubs("Cryostat", 1358.2*cm, 1413.2*cm, 1213*cm, 0*deg, alpha*deg);

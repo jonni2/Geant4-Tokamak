@@ -31,8 +31,12 @@
 /vis/geometry/set/colour logicBLK_shield 1 0.9 0.9 0.9 1
 
 # Toroidal Field Coils (TFC)
-/vis/geometry/set/forceSolid logicTFC 1 1
-/vis/geometry/set/colour logicTFC 1 0.5 0.5 0.5 1
+#/vis/geometry/set/forceSolid logicTFC 1 1
+#/vis/geometry/set/colour logicTFC 1 0.5 0.5 0.5 1
+
+# TFCi
+/vis/geometry/set/forceSolid logicTFCi 1 1
+/vis/geometry/set/colour logicTFCi 1 0.5 0.5 0.5 1
 
 # Vacuum Vessel (VV)
 /vis/geometry/set/forceSolid logicVV 1 1

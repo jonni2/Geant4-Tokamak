@@ -1,6 +1,7 @@
 #ifndef CONSTRUCTION_HH
 #define CONSTRUCTION_HH
 
+#include <cmath>
 // Include Geant4 libraries
 #include "G4VUserDetectorConstruction.hh"
 #include "G4VPhysicalVolume.hh"
@@ -30,6 +31,9 @@ private:
     // Materials for tokamak components
     G4Material *CS_mat, *Wall_mat, *HeatSink_mat, *W;
     void DefineMaterials();
+    
+    // Parts of the volume
+    G4VPhysicalVolume* physTFCi;
     
 };
 
