@@ -42,13 +42,15 @@
 /vis/geometry/set/forceSolid logicVV 1 1
 /vis/geometry/set/colour logicVV 1 0.9 0.9 0.9 1
 
+# Filling
+/vis/geometry/set/forceSolid logicFilling 1 1
+/vis/geometry/set/colour logicFilling 1 0.6 0.6 0.6 1
+
 # Bioshield
-/vis/geometry/set/forceSolid logicBioshield 1 1
-/vis/geometry/set/colour logicBioshield 1 0.4 0.4 0.4 0.8
-/vis/geometry/set/forceSolid logicBioshield_up 1 1
-/vis/geometry/set/colour logicBioshield_up 1 0.4 0.4 0.4 0.8
-/vis/geometry/set/forceSolid logicBioshield_down 1 1
-/vis/geometry/set/colour logicBioshield_down 1 0.4 0.4 0.4 0.8
+/vis/geometry/set/forceSolid logicBioshield_lat 1 1
+/vis/geometry/set/colour logicBioshield_lat 1 0.4 0.4 0.4 1
+/vis/geometry/set/forceSolid logicBioshield_updown 1 1
+/vis/geometry/set/colour logicBioshield_updown 1 0.4 0.4 0.4 1
 
 # Cryostat
 /vis/geometry/set/forceSolid logicCryostat 1 1

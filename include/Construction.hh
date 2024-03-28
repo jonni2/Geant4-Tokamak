@@ -29,7 +29,7 @@ private:
     G4Material *worldMat, *Nb3Sn, *Incoloy908, *SS316, *Al2O3, *plasma_mat, *Concrete;
     
     // Materials for tokamak components
-    G4Material *CS_mat, *Wall_mat, *HeatSink_mat, *W;
+    G4Material *CS_mat, *Wall_mat, *HeatSink_mat, *W, *Filling_mat;
     void DefineMaterials();
     
     // Parts of the volume

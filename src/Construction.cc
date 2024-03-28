@@ -20,10 +20,8 @@ void MyDetectorConstruction::DefineMaterials()
     
     // G4Material* graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
     
-    // Plasma as mixture of 90% D and 10% T
-    plasma_mat = new G4Material("plasma_mat", (5*0.0001)*g/m3,1);
-    plasma_mat->AddElement(nist->FindOrBuildElement("H"), 1); // Deuterium
-    // plasma_mat->AddElement(nist->FindOrBuildElement(""), ); // Tritium
+    // Plasma is practically vacuum
+    plasma_mat = nist->FindOrBuildMaterial("G4_Galactic");
     
     // Superconductor niobium tin: Nb3Sn
     // https://www.americanelements.com/niobium-tin-alloy-12035-04-0
@@ -77,6 +75,13 @@ void MyDetectorConstruction::DefineMaterials()
     // Concrete for Bioshield
     Concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
     
+    // Homogeneous material for filling
+    // This material is defined as an average of the most used materials in the ITER tokamak
+    Filling_mat = new G4Material("Filling_mat", 7.5*g/cm3, 3);
+    Filling_mat->AddMaterial(SS316, 75*perCent); // Steel
+    Filling_mat->AddElement(nist->FindOrBuildElement("Cu"), 15*perCent); // Copper
+    Filling_mat->AddMaterial(Concrete, 10*perCent);
+    
 }
 
 // Construction of all the components of the tokamak
@@ -124,12 +129,12 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     // 1st Wall heat sink
     G4Torus* Wall_1_HeatSink = new G4Torus("Wall_1_HeatSink", 227*cm, 229*cm, 627*cm, 0*deg, (alpha+30)*deg);
     G4LogicalVolume* logicWall_1_HeatSink = new G4LogicalVolume(Wall_1_HeatSink, HeatSink_mat, "logicWall_1_HeatSink");
-    G4VPhysicalVolume* physWall_HeatSink = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1_HeatSink, "physWall", logicWorld, false, 0, true);
+    G4VPhysicalVolume* physWall_HeatSink = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1_HeatSink, "physWall_HeatSink", logicWorld, false, 0, true);
     
     // Blanket shield block
-    G4Torus* BLK_shield = new G4Torus("BLK_shield", 229*cm, 271*cm, 627*cm, 0*deg, (alpha+20)*deg);
+    G4Torus* BLK_shield = new G4Torus("BLK_shield", 229*cm, 270*cm, 627*cm, 0*deg, (alpha+20)*deg);
     G4LogicalVolume* logicBLK_shield = new G4LogicalVolume(BLK_shield, SS316, "logicBLK_shield");
-    G4VPhysicalVolume* physBLK_shield = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_shield, "physWall", logicWorld, false, 0, true);
+    G4VPhysicalVolume* physBLK_shield = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_shield, "physBLK_shield", logicWorld, false, 0, true);
     
     
     // Vacuum Vessel (VV)
@@ -169,27 +174,31 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     
     G4VPhysicalVolume* physCryostat = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicCryostat, "physCryostat", logicWorld, false, 0, true);
     
+    // Space filling between bioshield (up/down) and Central Solenoid
+    G4Tubs* Filling = new G4Tubs("Filling_up", 0*cm, 1358.2*cm, 281.5*cm, 0*deg, alpha*deg);
+    
+    G4LogicalVolume* logicFilling = new G4LogicalVolume(Filling, Filling_mat, "logicFilling");
+    
+    G4VPhysicalVolume* physFilling_up = new G4PVPlacement(rot, G4ThreeVector(0, 931.5*cm, 0), logicFilling, "physFilling_up", logicWorld, false, 0, true);
+    
+    G4VPhysicalVolume* physFilling_down = new G4PVPlacement(rot, G4ThreeVector(0, -931.5*cm, 0), logicFilling, "physFilling_down", logicWorld, false, 0, true);
+    
     // Biological shield (concrete) lateral
     G4Tubs* Bioshield = new G4Tubs("Bioshield", 1413.2*cm, 1613*cm, 1213*cm, 0*deg, alpha*deg);
     
     // G4Sphere* Bioshield = new G4Sphere("Bioshield", 1413.2*cm, 1613*cm, 0*deg, alpha*deg, 0*deg, 180*deg);
-    G4LogicalVolume* logicBioshield = new G4LogicalVolume(Bioshield, Concrete, "logicBioshield");
+    G4LogicalVolume* logicBioshield_lat = new G4LogicalVolume(Bioshield, Concrete, "logicBioshield_lat");
     
-    G4VPhysicalVolume* physBioshield = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicBioshield, "physBioshield", logicWorld, false, 0, true);
+    G4VPhysicalVolume* physBioshield = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicBioshield_lat, "physBioshield_lat", logicWorld, false, 0, true);
     
     // Bioshield up
-    G4Tubs* Bioshield_up = new G4Tubs("Bioshield_up", 0*cm, 1613*cm, 100*cm, 0*deg, alpha*deg);
+    G4Tubs* Bioshield_updown = new G4Tubs("Bioshield_updown", 0*cm, 1613*cm, 100*cm, 0*deg, alpha*deg);
     
-    G4LogicalVolume* logicBioshield_up = new G4LogicalVolume(Bioshield_up, Concrete, "logicBioshield_up");
+    G4LogicalVolume* logicBioshield_updown = new G4LogicalVolume(Bioshield_updown, Concrete, "logicBioshield_updown");
     
-    G4VPhysicalVolume* physBioshield_up = new G4PVPlacement(rot, G4ThreeVector(0,1313*cm, 0), logicBioshield_up, "physBioshield_up", logicWorld, false, 0, true);
+    G4VPhysicalVolume* physBioshield_up = new G4PVPlacement(rot, G4ThreeVector(0,1313*cm, 0), logicBioshield_updown, "physBioshield_up", logicWorld, false, 0, true);
     
-    // Bioshield down
-    G4Tubs* Bioshield_down = new G4Tubs("Bioshield_down", 0*cm, 1613*cm, 100*cm, 0*deg, alpha*deg);
-    
-    G4LogicalVolume* logicBioshield_down = new G4LogicalVolume(Bioshield_down, Concrete, "logicBioshield_down");
-    
-    G4VPhysicalVolume* physBioshield_down = new G4PVPlacement(rot, G4ThreeVector(0,-1313*cm, 0), logicBioshield_down, "physBioshield_down", logicWorld, false, 0, true);
+    G4VPhysicalVolume* physBioshield_down = new G4PVPlacement(rot, G4ThreeVector(0,-1313*cm, 0), logicBioshield_updown, "physBioshield_down", logicWorld, false, 0, true);
     
     return physWorld;
 }
