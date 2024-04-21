@@ -16,9 +16,6 @@ void MyDetectorConstruction::DefineMaterials()
     G4NistManager* nist = G4NistManager::Instance();
     
     worldMat = nist->FindOrBuildMaterial("G4_AIR");
-    // G4Material* worldMat = nist->FindOrBuildMaterial("G4_Galactic");
-    
-    // G4Material* graphite = nist->FindOrBuildMaterial("G4_GRAPHITE");
     
     // Plasma is practically vacuum
     plasma_mat = nist->FindOrBuildMaterial("G4_Galactic");
@@ -61,9 +58,12 @@ void MyDetectorConstruction::DefineMaterials()
     CS_mat->AddMaterial(Al2O3, 5*perCent);
     
     
-    // Fist wall of tungsten/Lithium
-    // Wall1_mat = new G4Material();
-    Wall_mat = nist->FindOrBuildMaterial("G4_Li");
+    // Breeding blanket materials
+    // Liquid Lithium-Lead
+    // https://www.sciencedirect.com/science/article/pii/S0920379618307361
+    PbLi = new G4Material("PbLi", 9.8*g/cm3, 2);
+    PbLi->AddElement(nist->FindOrBuildElement("Pb"), 80*perCent);
+    PbLi->AddElement(nist->FindOrBuildElement("Li"), 20*perCent);
     
     // Heat sink of 1st wall, made of CuCrZr
     // file:///C:/Users/User/Downloads/PNA%20372%20-%20CuCrZr-C18160_EN-1.pdf
@@ -71,6 +71,8 @@ void MyDetectorConstruction::DefineMaterials()
     HeatSink_mat->AddElement(nist->FindOrBuildElement("Cu"), 98.8*perCent);
     HeatSink_mat->AddElement(nist->FindOrBuildElement("Cr"), 1*perCent);
     HeatSink_mat->AddElement(nist->FindOrBuildElement("Zr"), 0.2*perCent);
+    
+    
     
     // Concrete for Bioshield
     Concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
@@ -131,11 +133,30 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4LogicalVolume* logicWall_1_HeatSink = new G4LogicalVolume(Wall_1_HeatSink, HeatSink_mat, "logicWall_1_HeatSink");
     G4VPhysicalVolume* physWall_HeatSink = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1_HeatSink, "physWall_HeatSink", logicWorld, false, 0, true);
     
-    // Blanket shield block
-    G4Torus* BLK_shield = new G4Torus("BLK_shield", 229*cm, 270*cm, 627*cm, 0*deg, (alpha+20)*deg);
-    G4LogicalVolume* logicBLK_shield = new G4LogicalVolume(BLK_shield, SS316, "logicBLK_shield");
-    G4VPhysicalVolume* physBLK_shield = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_shield, "physBLK_shield", logicWorld, false, 0, true);
     
+    // BREEDING BLANKET for TRITIUM PRODUCTION ////////////////////////
+    // Blanket shield block
+    //G4Torus* BLK_shield = new G4Torus("BLK_shield", 229*cm, 270*cm, 627*cm, 0*deg, (alpha+20)*deg);
+    // Only steel blanket
+    //G4LogicalVolume* logicBLK_shield = new G4LogicalVolume(BLK_shield, SS316, "logicBLK_shield");
+    
+    // The blanket is made of 2 LAYERS: the BREEDER and the SUPPORT
+    // Water Cooled Lithium Lead (WCLL)
+    
+    // Breeder
+    G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 229*cm, 260*cm, 627*cm, 0*deg, (alpha+20)*deg);
+    
+    G4LogicalVolume* logicBLK_breeder = new G4LogicalVolume(BLK_breeder, PbLi, "logicBLK_breeder");
+    
+    G4VPhysicalVolume* physBLK_breeder = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_breeder, "physBLK_breeder", logicWorld, false, 0, true);
+    
+    // Support
+    G4Torus* BLK_support = new G4Torus("BLK_support", 260*cm, 270*cm, 627*cm, 0*deg, (alpha+20)*deg);
+    
+    G4LogicalVolume* logicBLK_support = new G4LogicalVolume(BLK_support, SS316, "logicBLK_support");
+    
+    G4VPhysicalVolume* physBLK_support = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_support, "physBLK_support", logicWorld, false, 0, true);
+    ///////////////////////////////////////////////////////////////////
     
     // Vacuum Vessel (VV)
     G4Torus* VV = new G4Torus("VV", 270*cm, 305.7*cm, 627*cm, 0*deg, (alpha+10)*deg);
@@ -147,13 +168,11 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     // G4LogicalVolume* logicTFC = new G4LogicalVolume(TFC, SS316, "logicTFC");
     // G4VPhysicalVolume* physTFC = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicTFC, "physTFC", logicWorld, false, 0, true);
     
-    // Test: 18 TFCs
     
+    // 18 Toroidal Field Coils (TFCs)
     G4Tubs* TFCi = new G4Tubs("TFCi", 307.1*cm, 407.1*cm, 30*cm, 0*deg, 360*deg);
     G4LogicalVolume* logicTFCi = new G4LogicalVolume(TFCi, SS316, "logicTFCi");
-    // G4VPhysicalVolume* physTFCi = new G4PVPlacement(rot_TFC, G4ThreeVector(627*cm,0,0), logicTFCi, "physTFCi", logicWorld, false, 0, true);
     
-    // 18 TFCs
     G4RotationMatrix* rot_TFC; //= new G4RotationMatrix;
     for(int i = 0; i != 18; ++i) {        
         
