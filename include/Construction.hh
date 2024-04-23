@@ -33,8 +33,8 @@ private:
     
     void DefineMaterials();
     
-    // Parts of the volume
-    G4VPhysicalVolume* physTFCi;
+    virtual void ConstructSDandField();
+    
     
 };
 

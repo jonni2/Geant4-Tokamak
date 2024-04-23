@@ -61,9 +61,18 @@ void MyDetectorConstruction::DefineMaterials()
     // Breeding blanket materials
     // Liquid Lithium-Lead
     // https://www.sciencedirect.com/science/article/pii/S0920379618307361
+    // The Li in the PbLi is enriched
+    G4double enrichment = 50.0; // Li6 enrichment fraction
+    // G4Isotope("name", z, n, a);
+    G4Isotope* Li6 = new G4Isotope("Li6", 3, 6, 6.015*g/mole);
+    G4Isotope* Li7 = new G4Isotope("Li7", 3, 7, 7.016*g/mole);
+    G4Element* Li = new G4Element("Lithium", "Li", 2);
+    Li->AddIsotope(Li6, enrichment*perCent);
+    Li->AddIsotope(Li7, (100-enrichment)*perCent);
+    
     PbLi = new G4Material("PbLi", 9.8*g/cm3, 2);
     PbLi->AddElement(nist->FindOrBuildElement("Pb"), 80*perCent);
-    PbLi->AddElement(nist->FindOrBuildElement("Li"), 20*perCent);
+    PbLi->AddElement(Li, 20*perCent);
     
     // Heat sink of 1st wall, made of CuCrZr
     // file:///C:/Users/User/Downloads/PNA%20372%20-%20CuCrZr-C18160_EN-1.pdf
@@ -173,6 +182,8 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4Tubs* TFCi = new G4Tubs("TFCi", 307.1*cm, 407.1*cm, 30*cm, 0*deg, 360*deg);
     G4LogicalVolume* logicTFCi = new G4LogicalVolume(TFCi, SS316, "logicTFCi");
     
+    G4VPhysicalVolume* physTFCi;
+    
     G4RotationMatrix* rot_TFC; //= new G4RotationMatrix;
     for(int i = 0; i != 18; ++i) {        
         
@@ -220,4 +231,11 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4VPhysicalVolume* physBioshield_down = new G4PVPlacement(rot, G4ThreeVector(0,-1313*cm, 0), logicBioshield_updown, "physBioshield_down", logicWorld, false, 0, true);
     
     return physWorld;
+}
+
+// Function used to define the Sensitive Detector (SD) which is used
+// to detect and SCORE the hits
+void MyDetectorConstruction::ConstructSDandField() {
+    
+    
 }
