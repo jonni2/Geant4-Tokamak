@@ -15,6 +15,9 @@
 #include "G4SystemOfUnits.hh"
 #include "G4RotationMatrix.hh"
 
+// Used to build the Sensitive Detector (SD)
+#include "Detector.hh"
+
 // Class called in main() to construct the whole world, detectors and shapes
 class MyDetectorConstruction : public G4VUserDetectorConstruction {
 public:
@@ -31,8 +34,12 @@ private:
     // Materials for tokamak components
     G4Material *CS_mat, *BLK_breeder_mat, *HeatSink_mat, *W, *Filling_mat;
     
+    // Used to define the SensitiveDetector to detect Tritium breeding
+    G4LogicalVolume* logicBLK_breeder;
+    
     void DefineMaterials();
     
+    // Method used to build the Sensitive Detector (SD) which records hits
     virtual void ConstructSDandField();
     
     

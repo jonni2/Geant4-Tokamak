@@ -133,12 +133,12 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4VPhysicalVolume* physCS = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicCS, "physCS", logicWorld, false, 0, true);
     
     // Tokamak 1st wall (Tungsten)
-    G4Torus* Wall_1 = new G4Torus("Wall_1", 226*cm, 227*cm, 627*cm, 0*deg, (alpha+40)*deg);
+    G4Torus* Wall_1 = new G4Torus("Wall_1", 226*cm, 227*cm, 627*cm, 0*deg, (alpha)*deg);
     G4LogicalVolume* logicWall_1 = new G4LogicalVolume(Wall_1, W, "logicWall_1");
     G4VPhysicalVolume* physWall = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1, "physWall", logicWorld, false, 0, true);
     
     // 1st Wall heat sink
-    G4Torus* Wall_1_HeatSink = new G4Torus("Wall_1_HeatSink", 227*cm, 229*cm, 627*cm, 0*deg, (alpha+30)*deg);
+    G4Torus* Wall_1_HeatSink = new G4Torus("Wall_1_HeatSink", 227*cm, 229*cm, 627*cm, 0*deg, (alpha)*deg);
     G4LogicalVolume* logicWall_1_HeatSink = new G4LogicalVolume(Wall_1_HeatSink, HeatSink_mat, "logicWall_1_HeatSink");
     G4VPhysicalVolume* physWall_HeatSink = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicWall_1_HeatSink, "physWall_HeatSink", logicWorld, false, 0, true);
     
@@ -153,14 +153,14 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     // Water Cooled Lithium Lead (WCLL)
     
     // Breeder
-    G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 229*cm, 260*cm, 627*cm, 0*deg, (alpha+20)*deg);
+    G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 229*cm, 260*cm, 627*cm, 0*deg, (alpha)*deg);
     
-    G4LogicalVolume* logicBLK_breeder = new G4LogicalVolume(BLK_breeder, PbLi, "logicBLK_breeder");
+    logicBLK_breeder = new G4LogicalVolume(BLK_breeder, PbLi, "logicBLK_breeder");
     
     G4VPhysicalVolume* physBLK_breeder = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_breeder, "physBLK_breeder", logicWorld, false, 0, true);
     
     // Support
-    G4Torus* BLK_support = new G4Torus("BLK_support", 260*cm, 270*cm, 627*cm, 0*deg, (alpha+20)*deg);
+    G4Torus* BLK_support = new G4Torus("BLK_support", 260*cm, 270*cm, 627*cm, 0*deg, (alpha)*deg);
     
     G4LogicalVolume* logicBLK_support = new G4LogicalVolume(BLK_support, SS316, "logicBLK_support");
     
@@ -168,7 +168,7 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     ///////////////////////////////////////////////////////////////////
     
     // Vacuum Vessel (VV)
-    G4Torus* VV = new G4Torus("VV", 270*cm, 305.7*cm, 627*cm, 0*deg, (alpha+10)*deg);
+    G4Torus* VV = new G4Torus("VV", 270*cm, 305.7*cm, 627*cm, 0*deg, (alpha)*deg);
     G4LogicalVolume* logicVV = new G4LogicalVolume(VV, SS316, "logicVV");
     G4VPhysicalVolume* physVV = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicVV, "physVV", logicWorld, false, 0, true);
     
@@ -237,5 +237,8 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
 // to detect and SCORE the hits
 void MyDetectorConstruction::ConstructSDandField() {
     
+    MySensitiveDetector* sensDet = new MySensitiveDetector("SensitiDetector");
+    
+    logicBLK_breeder->SetSensitiveDetector(sensDet);
     
 }

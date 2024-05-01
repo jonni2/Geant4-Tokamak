@@ -1,10 +1,29 @@
+// This file is used to create the SENSITIVE DETECTORS that can SCORE HITS
+// This file is used to COUNT the number of tritium atoms generated, according to the breeding reaction: n+Li6->He4+T3
+
 #ifndef DETECTOR_HH
 #define DETECTOR_HH
 
-// This file is used to create the SENSITIVE DETECTORS that can SCORE HITS
-// This file is used to COUNT the number of neutron captures by Li6 that occur (i.e. the number of tritium atoms generated, according to: n+Li6->He4+T3)
+#include "G4VSensitiveDetector.hh"
+#include "G4AnalysisManager.hh"
+#include "G4RunManager.hh"
+#include <iostream>
+#include <fstream>
 
-// https://www.youtube.com/watch?v=5KEB-ZrWvQ0&list=PLLybgCU6QCGWgzNYOV0SKen9vqg4KXeVL&index=7
+class MySensitiveDetector : public G4VSensitiveDetector {
+    
+public:
+    MySensitiveDetector(G4String);
+    ~MySensitiveDetector();
+    
+    // Method used to count Tritium breeding reactions.
+    virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*);
+    
+private:
+    
+    int N_Tritium = 0; // Count the number of T breeding reactions
+    
+};
 
 
 #endif
