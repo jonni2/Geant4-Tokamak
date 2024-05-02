@@ -43,11 +43,11 @@ G4bool MySensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
             
         }
         
-    } /*else if(particle_name != "neutron") {
+    } else if(particle_name != "neutron") {
         
-        // Kill unnecessary tracks to save computing time
+        // Kill unnecessary tracks to save time and increase code speed
         track->SetTrackStatus(fStopAndKill);
-    }*/
+    }
     
     
     return true;
