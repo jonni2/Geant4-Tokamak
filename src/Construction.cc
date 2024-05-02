@@ -22,13 +22,13 @@ void MyDetectorConstruction::DefineMaterials()
     
     // Superconductor niobium tin: Nb3Sn
     // https://www.americanelements.com/niobium-tin-alloy-12035-04-0
-    Nb3Sn = new G4Material("Nb3Sn", 6*g/cm3, 2);
+    G4Material* Nb3Sn = new G4Material("Nb3Sn", 6*g/cm3, 2);
     Nb3Sn->AddElement(nist->FindOrBuildElement("Nb"), 3);
     Nb3Sn->AddElement(nist->FindOrBuildElement("Sn"), 1);
     
     // Incoloy908: alloy of nickel iron
     // https://www.azom.com/article.aspx?ArticleID=9505
-    Incoloy908 = new G4Material("Incoloy908", 8.17*g/cm3, 4);
+    G4Material* Incoloy908 = new G4Material("Incoloy908", 8.17*g/cm3, 4);
     Incoloy908->AddElement(nist->FindOrBuildElement("Ni"), 50*perCent);
     Incoloy908->AddElement(nist->FindOrBuildElement("Fe"), 40*perCent);
     Incoloy908->AddElement(nist->FindOrBuildElement("Cr"), 5*perCent);
@@ -43,7 +43,7 @@ void MyDetectorConstruction::DefineMaterials()
     SS316->AddElement(nist->FindOrBuildElement("Mo"), 2*perCent);
     
     // Aluminum oxide Al2O3
-    Al2O3 = new G4Material("Al2O3", 3.95*g/cm3, 2);
+    G4Material* Al2O3 = new G4Material("Al2O3", 3.95*g/cm3, 2);
     Al2O3->AddElement(nist->FindOrBuildElement("Al"), 2);
     Al2O3->AddElement(nist->FindOrBuildElement("O"), 3);
     

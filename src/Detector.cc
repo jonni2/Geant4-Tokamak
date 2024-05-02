@@ -49,7 +49,6 @@ G4bool MySensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
         track->SetTrackStatus(fStopAndKill);
     }*/
     
-    os.close();
     
     return true;
 }

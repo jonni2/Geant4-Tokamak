@@ -28,11 +28,8 @@ public:
     
 private:
     
-    // Basic material
-    G4Material *worldMat, *Nb3Sn, *Incoloy908, *SS316, *Al2O3, *plasma_mat, *PbLi, *Concrete;
-    
-    // Materials for tokamak components
-    G4Material *CS_mat, *BLK_breeder_mat, *HeatSink_mat, *W, *Filling_mat;
+    // Materials of the various components
+    G4Material *worldMat, *SS316, *plasma_mat, *PbLi, *Concrete, *CS_mat, *BLK_breeder_mat, *HeatSink_mat, *W, *Filling_mat;
     
     // Used to define the SensitiveDetector to detect Tritium breeding
     G4LogicalVolume* logicBLK_breeder;
