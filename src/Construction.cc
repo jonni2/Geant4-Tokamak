@@ -104,7 +104,7 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4double yWorld = 18.0*m;
     G4double zWorld = 18.0*m;
     
-    G4double alpha = 270; // Revolution Angle
+    G4double alpha = 360; // Revolution Angle
     
     G4double R = 627; // Internal radius of tokamak
     

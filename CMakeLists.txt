@@ -16,8 +16,8 @@ file(GLOB MACRO_FILES "*.mac")
 
 file(COPY ${MACRO_FILES} DESTINATION ${PROJECT_BINARY_DIR})
 
-add_executable(project main.cc ${sources} ${headers})
+add_executable(Tokamak_Breeding.exe main.cc ${sources} ${headers})
 
-target_link_libraries(project ${Geant4_LIBRARIES})
+target_link_libraries(Tokamak_Breeding.exe ${Geant4_LIBRARIES})
 
-add_custom_target(Simulation DEPENDS project)
+add_custom_target(Simulation DEPENDS Tokamak_Breeding.exe)
