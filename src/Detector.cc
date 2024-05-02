@@ -15,8 +15,6 @@ MySensitiveDetector::~MySensitiveDetector()
 // process then a counter N_Tritium is increased.
 G4bool MySensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhist)
 {    
-    std::ofstream os{"Breeding.txt"};
-    // os.open("Breeding.txt");
     
     G4String particle_name = aStep->GetTrack()->GetParticleDefinition()->GetParticleName();
     
@@ -43,7 +41,6 @@ G4bool MySensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
             
             std::cout << "N Tritium: " << N_Tritium << '\n';
             
-            os << "Breeding occurred: " << N_Tritium << '\n';
         }
         
     } /*else if(particle_name != "neutron") {
