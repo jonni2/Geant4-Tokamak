@@ -1,4 +1,4 @@
-#include "detector.hh"
+#include "Detector.hh"
 
 MySensitiveDetector::MySensitiveDetector(G4String name) : G4VSensitiveDetector(name)
 {
