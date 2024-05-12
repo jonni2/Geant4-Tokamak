@@ -68,7 +68,7 @@ int main(int argc, char** argv) {
             UImanager->ApplyCommand("/control/execute run.mac");
             
         } else {
-            std::cout << "The simulation will generate N neutrons inside the tokamak's vessel and evaluate their interaction with the breeding blanket to produce tritium. The simulation will output the Tritium Breeding Ratio (TBR).\nInert the number of neutrons to generate:\n";
+            std::cout << "The simulation will generate N neutrons inside the tokamak's vessel and evaluate their interaction with the breeding blanket to produce tritium. The simulation will output the Tritium Breeding Ratio (TBR).\nInsert the number of neutrons to generate:\n";
             
             G4int N;
             
