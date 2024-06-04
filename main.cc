@@ -57,10 +57,6 @@ int main(int argc, char** argv) {
     } else {
         // Graphics disabled
         
-        // Run external macro run.mac
-        UImanager->ApplyCommand("/control/execute run.mac");
-        
-        
         // Check for existence of outfile.txt
         std::ifstream is("outfile.txt");
         if(is.is_open() == true) {
@@ -74,33 +70,49 @@ int main(int argc, char** argv) {
         }
         is.close();
         
-        // Retrieve number of input neutrons
-        // is.open("run.mac");
-        std::string line, word;
-        G4double N_Neutron;
-        
         is.open("run.mac");
-        std::getline(is, line);
-        std::stringstream str(line);
-        std::getline(str, word, ' '); // Discard "/run/beamOn"
-        str >> N_Neutron;
-        // std::cout << "\n\n\n\n NEUTRON: " << N_Neutron << '\n';
-    
-        is.close();
+        std::string line, word;
         
-        // Retrieve Tritium atoms generated after simulation
+        // Sensitive Detector of the simulation
         MySensitiveDetector* SD = Detector->Get_SD();
-        G4int N_Tritium = SD->Get_Tritium();
         
-        // Obtain Tritium Breeding Ratio (TBR)
-        G4double TBR = N_Tritium/N_Neutron;
+        // Read each command line of run.mac
+        while(std::getline(is, line)) {
+            // Retrieve number of input neutrons
+            G4double N_Neutron;
+            
+            std::stringstream str(line);
+            std::getline(str, word, ' '); // "/run/beamOn"
+            if(word != "/run/beamOn") {
+                std::cout << "ATTENTION. The only accepted command is \"/run/beamOn\" \n";
+            } else {
+                str >> N_Neutron;
+                
+                // Reset the number of tritium atoms to 0
+                SD->Reset_Tritium();
+                
+                // Run external macro run.mac
+                UImanager->ApplyCommand(line);
+                
+                // Retrieve the number of Tritium atoms produced
+                G4int N_Tritium = SD->Get_Tritium();
+                
+                // Obtain Tritium Breeding Ratio (TBR)
+                G4double TBR = N_Tritium/N_Neutron;
+                
+                
+                // Print (append) data to outfile.txt
+                std::ofstream outfile;
+                outfile.open("outfile.txt", std::ios_base::app);
+                outfile << N_Neutron << '\t' << N_Tritium << '\t' << TBR << '\n';
+                outfile.close();
+                
+                std::cout << "\n\n\nResults printed on outfile.txt\n\n";
+            }
+            
+        }
         
-        
-        std::ofstream outfile;
-        outfile.open("outfile.txt", std::ios_base::app);
-        outfile << N_Neutron << '\t' << N_Tritium << '\t' << TBR << '\n';
-        
-        std::cout << "\n\n\n\n\n TBR " << TBR << '\n';
+        is.close();
         
     }
     

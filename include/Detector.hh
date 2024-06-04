@@ -19,6 +19,9 @@ public:
     // Method used to count Tritium breeding reactions.
     virtual G4bool ProcessHits(G4Step*, G4TouchableHistory*);
     
+    // Reset number of tritium atoms
+    void Reset_Tritium();
+    
     // Return the number of tritium atoms generated (N_Tritium)
     G4int Get_Tritium();
     

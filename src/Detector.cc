@@ -8,9 +8,14 @@ MySensitiveDetector::MySensitiveDetector(G4String name) : G4VSensitiveDetector(n
 MySensitiveDetector::~MySensitiveDetector()
 {}
 
-// Return the Tritium Breeding Ratio (TBR)
+// Return the number of Tritium atoms produced
 G4int MySensitiveDetector::Get_Tritium() {
     return N_Tritium;
+}
+
+// Reset the number of Tritium atoms
+void MySensitiveDetector::Reset_Tritium() {
+    N_Tritium = 0;
 }
 
 // This method is used to COUNT the number of Tritium breeding reactions
@@ -34,7 +39,7 @@ G4bool MySensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
         if(creator_process == "neutronInelastic") {
             
             ++N_Tritium;
-            
+                        
             // Kill the track: it's no longer useful because we've
             // already detected the Tritium breeding.
             track->SetTrackStatus(fStopAndKill);
