@@ -84,14 +84,17 @@ int main(int argc, char** argv) {
             std::stringstream str(line);
             std::getline(str, word, ' '); // "/run/beamOn"
             if(word != "/run/beamOn") {
+                // Don't start simulation if the specified command is not /run/beamOn
+                
                 std::cout << "ATTENTION. The only accepted command is \"/run/beamOn\" \n";
+                
             } else {
                 str >> N_Neutron;
                 
                 // Reset the number of tritium atoms to 0
                 SD->Reset_Tritium();
                 
-                // Run external macro run.mac
+                // Run commands from external macro run.mac
                 UImanager->ApplyCommand(line);
                 
                 // Retrieve the number of Tritium atoms produced
