@@ -35,16 +35,9 @@ G4bool MySensitiveDetector::ProcessHits(G4Step* aStep, G4TouchableHistory* ROhis
             
             ++N_Tritium;
             
-            // G4double E = track->GetTotalEnergy();
-            // man->FillNtupleDColumn(0, E);
-            // man->AddNtupleRow(0);
-            
             // Kill the track: it's no longer useful because we've
             // already detected the Tritium breeding.
             track->SetTrackStatus(fStopAndKill);
-            
-            std::cout << "N Tritium: " << N_Tritium << '\n';
-            
         }
         
     } else if(particle_name != "neutron") {
