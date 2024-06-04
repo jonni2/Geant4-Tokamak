@@ -57,16 +57,52 @@ int main(int argc, char** argv) {
     } else {
         // Graphics disabled
         
-        // Run external run.mac macro
+        // Run external macro run.mac
         UImanager->ApplyCommand("/control/execute run.mac");
         
+        
+        // Check for existence of outfile.txt
+        std::ifstream is("outfile.txt");
+        if(is.is_open() == true) {
+            // outfile.txt already exists, do nothing.
+            // The results will be appended to the existing ones
+        } else {
+            // outfile.txt does not exist: create a new one with a header
+            std::ofstream os("outfile.txt");
+            os << "# neutr\t# trit\tTBR\n";
+            os.close();
+        }
+        is.close();
+        
+        // Retrieve number of input neutrons
+        // is.open("run.mac");
+        std::string line, word;
+        G4double N_Neutron;
+        
+        is.open("run.mac");
+        std::getline(is, line);
+        std::stringstream str(line);
+        std::getline(str, word, ' '); // Discard "/run/beamOn"
+        str >> N_Neutron;
+        // std::cout << "\n\n\n\n NEUTRON: " << N_Neutron << '\n';
+    
+        is.close();
+        
+        // Retrieve Tritium atoms generated after simulation
+        MySensitiveDetector* SD = Detector->Get_SD();
+        G4int N_Tritium = SD->Get_Tritium();
+        
+        // Obtain Tritium Breeding Ratio (TBR)
+        G4double TBR = N_Tritium/N_Neutron;
+        
+        
+        std::ofstream outfile;
+        outfile.open("outfile.txt", std::ios_base::app);
+        outfile << N_Neutron << '\t' << N_Tritium << '\t' << TBR << '\n';
+        
+        std::cout << "\n\n\n\n\n TBR " << TBR << '\n';
+        
     }
-    
-    // Retrieve Tritium atoms generated after simulation
-    MySensitiveDetector* SD = Detector->Get_SD();
-    G4int N_Tritium = SD->Get_Tritium();
-    
-    std::cout << "\n\n\n\n\n TBR " << SD->Get_Tritium() << '\n';
     
     
     delete runManager;
