@@ -4,10 +4,16 @@ MyDetectorConstruction::MyDetectorConstruction()
 {
     // Define the materials once for all
     DefineMaterials();
+    alpha = 360;
 }
 
 MyDetectorConstruction::~MyDetectorConstruction()
 {}
+
+// Set angle from outisde
+void MyDetectorConstruction::Set_angle(G4double angle) {
+    alpha = angle;
+}
 
 // Function used to define all the materials of the simulation
 void MyDetectorConstruction::DefineMaterials()
@@ -104,7 +110,7 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4double yWorld = 18.0*m;
     G4double zWorld = 18.0*m;
     
-    G4double alpha = 360; // Revolution Angle
+    // G4double alpha = 360; // Revolution Angle
     
     G4double R = 627; // Internal radius of tokamak
     
@@ -237,8 +243,12 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
 // to detect and SCORE the hits
 void MyDetectorConstruction::ConstructSDandField() {
     
-    MySensitiveDetector* sensDet = new MySensitiveDetector("SensitiDetector");
+    sensDet = new MySensitiveDetector("Tritium_SD");
     
     logicBLK_breeder->SetSensitiveDetector(sensDet);
     
+}
+
+MySensitiveDetector* MyDetectorConstruction::Get_SD() {
+    return sensDet;
 }

@@ -8,6 +8,10 @@ MySensitiveDetector::MySensitiveDetector(G4String name) : G4VSensitiveDetector(n
 MySensitiveDetector::~MySensitiveDetector()
 {}
 
+// Return the Tritium Breeding Ratio (TBR)
+G4int MySensitiveDetector::Get_Tritium() {
+    return N_Tritium;
+}
 
 // This method is used to COUNT the number of Tritium breeding reactions
 // occurred. It does so by observing each particle: if it is a triton
