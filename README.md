@@ -77,5 +77,19 @@ and then to run it:
 docker run -ti tbr_geant4
 ```
 
+Inside the container the project can be built as previously mentioned:
+```
+source /usr/local/share/geant4/install/4.11.1/bin/geant4.sh
+cd Geant4_Tokamak
+mkdir build && cd build
+cmake ..
+make
+```
+The program can be executed as previously mentioned:
+```
+./Tokamak_Breeding.exe
+./Tokamak_Breeding.exe run.mac 
+```
+
 ## References
 Mohammad Mehdi Nasseri, "Three Dimensional Simulation of ITER Machine by Using Geant4", Journal of Fusion Energy (2016). [Link to article](https://link.springer.com/article/10.1007/s10894-016-0083-0)
