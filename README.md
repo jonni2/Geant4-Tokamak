@@ -61,5 +61,21 @@ The run.mac file must contain commands of the type: `/run/beamOn N` (N = number 
 
 A gallery of images is available in order to see how the program works.
 
+## Build with Docker
+
+This project can be built also using Docker, which allows the user to avoid downloading and installing Geant4.
+
+The chosen base image is [artemisbeta/geant4](https://hub.docker.com/r/artemisbeta/geant4) which features geant4-11 already installed.
+
+To build the Docker image:
+```
+docker build -t tbr_geant4 .
+```
+
+and then to run it:
+```
+docker run -ti tbr_geant4
+```
+
 ## References
 Mohammad Mehdi Nasseri, "Three Dimensional Simulation of ITER Machine by Using Geant4", Journal of Fusion Energy (2016). [Link to article](https://link.springer.com/article/10.1007/s10894-016-0083-0)
