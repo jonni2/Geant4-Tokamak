@@ -3,10 +3,13 @@
 ## Scientific background of the project
 
 This program simulates, by using the software Geant4, the production of neutrons and the **Tritium breeding phenomenon** in a very simplified tokamak model inspired by ITER. <br />
-As it is known, tritium is one of the two candidate fuels (together with deuterium) for future nuclear fusion reactors. However tritium is an incredibly rare isotope on Earth and the current proposal is to produce it inside fusion devices themselves by using the *breeding reaction* of neutrons with lithium: $`n+6Li`$ &rarr; $`T+\alpha`$. <br />
-For this reason future fusion devices (like ITER) foresee the presence of a **breeding blanket** containing lithium compounds or molten salts from which the tritium will be extracted between the tokamak's operations. <br />
+As it is known, tritium is one of the two candidate fuels (together with deuterium) for future nuclear fusion reactors. However tritium is an incredibly rare isotope on Earth and the current most accepted proposal is to produce it inside fusion devices themselves by using the *breeding reaction* of neutrons with lithium: $`n+6Li`$ &rarr; $`T+\alpha`$. 
 
-ITER will use several **Test Breeding Modules** (TBM): small modules that will imitate a breeding blanket and will use different technologies to assess the best design for a real blanket.
+For this reason future fusion devices (like ITER) foresee the presence of a **breeding blanket** containing lithium compounds or molten salts from which the tritium will be extracted between the tokamak's operations.
+
+ITER will use several **Test Breeding Modules** (TBM): small modules that will imitate a breeding blanket and will use different technologies to assess the best design for a real blanket. [Tritium Breeding ITER program](https://www.iter.org/mach/TritiumBreeding).
+
+The technology chosen in this project is the **Water Cooled Lithium Lead** [WCLL](https://www.researchgate.net/publication/356863363_The_DEMO_Water-Cooled_Lead-Lithium_Breeding_Blanket_Design_Status_at_the_End_of_the_Pre-Conceptual_Design_Phase).
 
 ## Purpose of this project
 
