@@ -87,6 +87,11 @@ void MyDetectorConstruction::DefineMaterials()
     HeatSink_mat->AddElement(nist->FindOrBuildElement("Cr"), 1*perCent);
     HeatSink_mat->AddElement(nist->FindOrBuildElement("Zr"), 0.2*perCent);
     
+    // Material for Toroidal Field Coils (TFC)
+    TFC_mat = new G4Material("TFC_mat", 6.98*g/cm3, 3);
+    TFC_mat->AddMaterial(Nb3Sn, 45*perCent);
+    TFC_mat->AddMaterial(Al2O3, 5*perCent);
+    TFC_mat->AddMaterial(Incoloy908, 50*perCent);
     
     
     // Concrete for Bioshield
