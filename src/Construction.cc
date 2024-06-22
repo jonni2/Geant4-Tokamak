@@ -87,12 +87,6 @@ void MyDetectorConstruction::DefineMaterials()
     HeatSink_mat->AddElement(nist->FindOrBuildElement("Cr"), 1*perCent);
     HeatSink_mat->AddElement(nist->FindOrBuildElement("Zr"), 0.2*perCent);
     
-    // Material for Toroidal Field Coils (TFC)
-    TFC_mat = new G4Material("TFC_mat", 6.98*g/cm3, 3);
-    TFC_mat->AddMaterial(Nb3Sn, 45*perCent);
-    TFC_mat->AddMaterial(Al2O3, 5*perCent);
-    TFC_mat->AddMaterial(Incoloy908, 50*perCent);
-    
     
     // Concrete for Bioshield
     Concrete = nist->FindOrBuildMaterial("G4_CONCRETE");
@@ -191,7 +185,7 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     
     // 18 Toroidal Field Coils (TFCs)
     G4Tubs* TFCi = new G4Tubs("TFCi", 307.1*cm, 407.1*cm, 30*cm, 0*deg, 360*deg);
-    G4LogicalVolume* logicTFCi = new G4LogicalVolume(TFCi, SS316, "logicTFCi");
+    G4LogicalVolume* logicTFCi = new G4LogicalVolume(TFCi, CS_mat, "logicTFCi");
     
     G4VPhysicalVolume* physTFCi;
     

@@ -38,7 +38,7 @@ private:
     G4double alpha; 
     
     // Materials of the various components
-    G4Material *worldMat, *SS316, *plasma_mat, *PbLi, *Concrete, *CS_mat, *BLK_breeder_mat, *TFC_mat, *HeatSink_mat, *W, *Filling_mat;
+    G4Material *worldMat, *SS316, *plasma_mat, *PbLi, *Concrete, *CS_mat, *BLK_breeder_mat, *HeatSink_mat, *W, *Filling_mat;
     
     // Used to define the SensitiveDetector to detect Tritium breeding
     G4LogicalVolume* logicBLK_breeder;
