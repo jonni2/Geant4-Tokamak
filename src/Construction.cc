@@ -1,6 +1,6 @@
 #include "Construction.hh"
 
-MyDetectorConstruction::MyDetectorConstruction()
+MyDetectorConstruction::MyDetectorConstruction(G4double enrich):enrichment{enrich}
 {
     // Define the materials once for all
     DefineMaterials();
@@ -13,6 +13,11 @@ MyDetectorConstruction::~MyDetectorConstruction()
 // Set angle from outisde
 void MyDetectorConstruction::Set_angle(G4double angle) {
     alpha = angle;
+}
+
+// Set Lithium enrichment
+void MyDetectorConstruction::Set_Li_enrichment(G4double enrich) {
+    enrichment = enrich;
 }
 
 // Function used to define all the materials of the simulation
@@ -68,7 +73,6 @@ void MyDetectorConstruction::DefineMaterials()
     // Liquid Lithium-Lead
     // https://www.sciencedirect.com/science/article/pii/S0920379618307361
     // The Li in the PbLi is enriched
-    G4double enrichment = 50.0; // Li6 enrichment fraction
     // G4Isotope("name", z, n, a);
     G4Isotope* Li6 = new G4Isotope("Li6", 3, 6, 6.015*g/mole);
     G4Isotope* Li7 = new G4Isotope("Li7", 3, 7, 7.016*g/mole);

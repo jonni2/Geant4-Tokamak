@@ -21,7 +21,7 @@
 // Class called in main() to construct the whole world, detectors and shapes
 class MyDetectorConstruction : public G4VUserDetectorConstruction {
 public:
-    MyDetectorConstruction();
+    MyDetectorConstruction(G4double enrich);
     ~MyDetectorConstruction();
     
     virtual G4VPhysicalVolume* Construct();
@@ -29,13 +29,19 @@ public:
     // Set the geometrical revolution angle to visualize the tokamak
     void Set_angle(G4double angle);
     
+    // Set Lithium enrichment for breeding blanket
+    void Set_Li_enrichment(G4double enrich);
+    
     // Get the SensitiveDetector to obtain the Tritium atoms generated
     MySensitiveDetector* Get_SD();
     
 private:
     
     // Revolution Angle (to see tokamak's interior)
-    G4double alpha; 
+    G4double alpha;
+    
+    // Lithium enrichment
+    G4double enrichment = 50;
     
     // Materials of the various components
     G4Material *worldMat, *SS316, *plasma_mat, *PbLi, *Concrete, *CS_mat, *BLK_breeder_mat, *HeatSink_mat, *W, *Filling_mat;

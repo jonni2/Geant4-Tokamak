@@ -18,7 +18,10 @@ int main(int argc, char** argv) {
     // Create the G4 RunManager instance: heart of Geant4
     G4RunManager* runManager = new G4RunManager;
     
-    MyDetectorConstruction* Detector = new MyDetectorConstruction();
+    G4double Li_enrichment = 10;
+    
+    MyDetectorConstruction* Detector = new MyDetectorConstruction(Li_enrichment);
+    Detector->Set_Li_enrichment(Li_enrichment);
     MySensitiveDetector* SensitiveDetector = new MySensitiveDetector("Tritium_SD");
     
     G4UIExecutive* ui = 0;
@@ -65,7 +68,7 @@ int main(int argc, char** argv) {
         } else {
             // outfile.txt does not exist: create a new one with a header
             std::ofstream os("outfile.txt");
-            os << "# neutr\t# trit\tTBR\n";
+            os << "Li_enr\t# neutr\t# trit\tTBR\n";
             os.close();
         }
         is.close();
@@ -107,7 +110,7 @@ int main(int argc, char** argv) {
                 // Print (append) data to outfile.txt
                 std::ofstream outfile;
                 outfile.open("outfile.txt", std::ios_base::app);
-                outfile << N_Neutron << '\t' << N_Tritium << '\t' << TBR << '\n';
+                outfile << Li_enrichment << '\t' << N_Neutron << '\t' << N_Tritium << '\t' << TBR << '\n';
                 outfile.close();
                 
                 std::cout << "\n\n\nResults printed on outfile.txt\n\n";
