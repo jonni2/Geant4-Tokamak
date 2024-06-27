@@ -13,15 +13,20 @@
 #include "PrimaryGeneratorAction.hh"
 #include "ActionInitialization.hh"
 
-int main(int argc, char** argv) {
+int main(int argc, char* argv[]) {
     
     // Create the G4 RunManager instance: heart of Geant4
     G4RunManager* runManager = new G4RunManager;
     
-    G4double Li_enrichment = 10;
+    G4double Li_enrichment = 50;
+    
+    // ./Tokamak_Breeding run.mac enrich
+    // Enrichment inputted by user
+    if(argc == 3) {
+        Li_enrichment = atof(argv[2]);
+    }
     
     MyDetectorConstruction* Detector = new MyDetectorConstruction(Li_enrichment);
-    Detector->Set_Li_enrichment(Li_enrichment);
     MySensitiveDetector* SensitiveDetector = new MySensitiveDetector("Tritium_SD");
     
     G4UIExecutive* ui = 0;

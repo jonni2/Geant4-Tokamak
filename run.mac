@@ -1,3 +1,2 @@
-/run/beamOn 500
-/run/beamOn 1000
-/run/beamOn 1500
+/run/beamOn 10000
+/run/beamOn 10000
