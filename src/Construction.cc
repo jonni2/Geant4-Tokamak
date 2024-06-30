@@ -70,9 +70,7 @@ void MyDetectorConstruction::DefineMaterials()
     
     
     // Breeding blanket materials
-    // Liquid Lithium-Lead
     // https://www.sciencedirect.com/science/article/pii/S0920379618307361
-    // The Li in the PbLi is enriched
     // G4Isotope("name", z, n, a);
     G4Isotope* Li6 = new G4Isotope("Li6", 3, 6, 6.015*g/mole);
     G4Isotope* Li7 = new G4Isotope("Li7", 3, 7, 7.016*g/mole);
@@ -80,9 +78,22 @@ void MyDetectorConstruction::DefineMaterials()
     Li->AddIsotope(Li6, enrichment*perCent);
     Li->AddIsotope(Li7, (100-enrichment)*perCent);
     
+    // Lithium Lead liquid alloy for WCLL (Water Cooled Lithium Lead)
     PbLi = new G4Material("PbLi", 9.8*g/cm3, 2);
     PbLi->AddElement(nist->FindOrBuildElement("Pb"), 80*perCent);
     PbLi->AddElement(Li, 20*perCent);
+    
+    // Li4SiO4 for HCPB (Helium Cooled Pebble Bed) Blanket
+    // https://next-gen.materialsproject.org/materials/mp-11737
+    Li4SiO4 = new G4Material("Li4SiO4", 2.45*g/cm3, 3);
+    Li4SiO4->AddElement(Li, 4);
+    Li4SiO4->AddElement(nist->FindOrBuildElement("Si"), 1);
+    Li4SiO4->AddElement(nist->FindOrBuildElement("O"), 4);
+    
+    // Beryllium as neutron multiplier for Blanket
+    // https://en.wikipedia.org/wiki/Beryllium
+    Be = new G4Material("Be", 1.845*g/cm3, 1);
+    Be->AddElement(nist->FindOrBuildElement("Be"), 1);
     
     // Heat sink of 1st wall, made of CuCrZr
     // file:///C:/Users/User/Downloads/PNA%20372%20-%20CuCrZr-C18160_EN-1.pdf
@@ -153,22 +164,44 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     
     
     // BREEDING BLANKET for TRITIUM PRODUCTION ////////////////////////
-    // Blanket shield block
-    //G4Torus* BLK_shield = new G4Torus("BLK_shield", 229*cm, 270*cm, 627*cm, 0*deg, (alpha+20)*deg);
-    // Only steel blanket
-    //G4LogicalVolume* logicBLK_shield = new G4LogicalVolume(BLK_shield, SS316, "logicBLK_shield");
     
-    // The blanket is made of 2 LAYERS: the BREEDER and the SUPPORT
-    // Water Cooled Lithium Lead (WCLL)
+    // Uncomment the following to use HCPB with Be
+    /*
+    // Beryllium moderator in front of Li4SiO4
+    G4Torus* Be_moderator = new G4Torus("Be_moderator", 229*cm, 234*cm, 627*cm, 0*deg, alpha*deg);
     
-    // Breeder
+    G4LogicalVolume* logic_Be_moderator = new G4LogicalVolume(Be_moderator, Be, "logic_Be_moderator");
+    
+    G4VPhysicalVolume* phys_Be_moderator = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logic_Be_moderator, "phys_Be_moderator", logicWorld, false, 0, true);
+    
+    
+    // Breeding Blanket volume
+    G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 234*cm, 255*cm, 627*cm, 0*deg, (alpha)*deg);
+    
+    // HCPB (Helium Cooled Pebble Bed)
+    logicBLK_breeder = new G4LogicalVolume(BLK_breeder, Li4SiO4, "logicBLK_breeder");
+    
+    // Second Beryllium layer
+    G4Torus* Be_moderator2 = new G4Torus("Be_moderator2", 255*cm, 260*cm, 627*cm, 0*deg, alpha*deg);
+    
+    G4LogicalVolume* logic_Be_moderator2 = new G4LogicalVolume(Be_moderator2, Be, "logic_Be_moderator2");
+    
+    G4VPhysicalVolume* phys_Be_moderator2 = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logic_Be_moderator2, "phys_Be_moderator2", logicWorld, false, 0, true);
+    
+    */
+    
+    // Uncomment the following to use WCLL (Water Cooled Lithium Lead) Breeding BLK
+    ///*
+    
     G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 229*cm, 260*cm, 627*cm, 0*deg, (alpha)*deg);
     
+    
     logicBLK_breeder = new G4LogicalVolume(BLK_breeder, PbLi, "logicBLK_breeder");
+    //*/
     
     G4VPhysicalVolume* physBLK_breeder = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_breeder, "physBLK_breeder", logicWorld, false, 0, true);
     
-    // Support
+    // Breeding BLK steel support
     G4Torus* BLK_support = new G4Torus("BLK_support", 260*cm, 270*cm, 627*cm, 0*deg, (alpha)*deg);
     
     G4LogicalVolume* logicBLK_support = new G4LogicalVolume(BLK_support, SS316, "logicBLK_support");

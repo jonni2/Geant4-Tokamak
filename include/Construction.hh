@@ -44,7 +44,7 @@ private:
     G4double enrichment = 50;
     
     // Materials of the various components
-    G4Material *worldMat, *SS316, *plasma_mat, *PbLi, *Concrete, *CS_mat, *BLK_breeder_mat, *HeatSink_mat, *W, *Filling_mat;
+    G4Material *worldMat, *SS316, *plasma_mat, *PbLi, *Li4SiO4, *Be, *Concrete, *CS_mat, *BLK_breeder_mat, *HeatSink_mat, *W, *Filling_mat;
     
     // Used to define the SensitiveDetector to detect Tritium breeding
     G4LogicalVolume* logicBLK_breeder;
