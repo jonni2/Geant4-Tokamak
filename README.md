@@ -9,7 +9,7 @@ For this reason future fusion devices (like ITER) foresee the presence of a **br
 
 ITER will use several **Test Breeding Modules** (TBM): small modules that will imitate a breeding blanket and will use different technologies to assess the best design for a real blanket. [Tritium Breeding ITER program](https://www.iter.org/mach/TritiumBreeding).
 
-The technology chosen in this project is the **Water Cooled Lithium Lead** [WCLL](https://www.researchgate.net/publication/356863363_The_DEMO_Water-Cooled_Lead-Lithium_Breeding_Blanket_Design_Status_at_the_End_of_the_Pre-Conceptual_Design_Phase).
+This project can simulate two simplified TBM technologies: **Water Cooled Lithium Lead** [WCLL](https://www.researchgate.net/publication/356863363_The_DEMO_Water-Cooled_Lead-Lithium_Breeding_Blanket_Design_Status_at_the_End_of_the_Pre-Conceptual_Design_Phase) and **Helium Cooled Pebble Bed** [HCPB](https://www.mdpi.com/1996-1073/16/14/5377).
 
 ## Purpose of this project
 
@@ -22,9 +22,9 @@ The simulation generates a certain number of neutrons (that can be changed in th
 The tokamak is designed as a series of toroidal and cylindrical volumes which simplify some of the layers and materials used in ITER.
 The neutrons are produced by an annular source in the center of the tokamak and have an energy of 14.1 MeV (see `setup.mac` file). <br />
 
-To study the breeding phenomenon a blanket inspired by one of the real ITER Test Breeding Modules (TBM) has been implemented in the `Construction.cc` file. <br />
+To study the breeding phenomenon two very simplified breeding blankets (WCLL, HCPB) inspired by the real ITER Test Breeding Modules (TBM) have been implemented in the `Construction.cc` file. <br />
 
-Here is a generic explanation of the files used:
+Here is a rapid explanation of the files used:
 - `main.cc`: file containing the int main() function which starts the simulation;
 - `Construction.hh/cc`: implementation of the geometry of the simulation;
 - `PhysicsList.hh/cc`: implementation of the physics of the simulation (EM, neutron reactions...);
@@ -32,6 +32,13 @@ Here is a generic explanation of the files used:
 - `PrimaryGeneratorAction.hh/cc`: definition of particles generation;
 - `Detector.hh/cc`: define the "Sensitive Detector" (SD) of the simulation, in this case the tritium breeding blanket, which detects tritium generation events.
 
+## Breeding Blanket
+
+The breeding blanket is the most important part of this project since it's responsible for the tritium breeding. The two designs have been simplified in Geant4 as follows:
+- WCLL: pure PbLi (Lithium Lead) with proportions 80% Pb, 20% Li;
+- HCPB: the blanket is divided into three layers: one central Li4SiO4 layer sandwiched between two Beryllium neutron multipliers.
+
+In both designs lithium can be enriched in 6Li by specifying it at runtime (see next section).
 
 <img src='Images/Tokamak_6.png' width='500'>
 
@@ -62,6 +69,14 @@ The simulation can also be run without graphics and with the customizable run.ma
 In this mode multiple runs are allowed and the program will output the TBR evaluated on `outfile.txt`. <br />
 The run.mac file must contain commands of the type: `/run/beamOn N` (N = number of neutrons generated). <br />
 
+The user can also input two parameters: the **6Li enrichment** in the breeding blanket as a double precision number; the **blanket design** as a boolean (0 = HCPB, 1 = WCLL). Some example commands are:
+```
+./Tokamak_Breeding.exe run.mac 15.7 0
+./Tokamak_Breeding.exe run.mac 100 1
+./Tokamak_Breeding.exe run.mac 57.6 0
+...
+```
+
 A gallery of images is available in order to see how the program works.
 
 ## Build with Docker
@@ -91,7 +106,9 @@ make
 The program can be executed as previously mentioned:
 ```
 ./Tokamak_Breeding.exe
-./Tokamak_Breeding.exe run.mac 
+./Tokamak_Breeding.exe run.mac
+./Tokamak_Breeding.exe run.mac 15.7 0
+...
 ```
 
 ## References
