@@ -19,14 +19,28 @@ int main(int argc, char* argv[]) {
     G4RunManager* runManager = new G4RunManager;
     
     G4double Li_enrichment = 50;
+    bool which_blk_design = true; // true = WCLL, false = HCPB
+    G4String which_blk_design_str = "WCLL";
     
     // ./Tokamak_Breeding run.mac enrich
     // Enrichment inputted by user
-    if(argc == 3) {
+    if(argc >= 3) {
         Li_enrichment = atof(argv[2]);
     }
     
-    MyDetectorConstruction* Detector = new MyDetectorConstruction(Li_enrichment);
+    // ./Tokamak_Breeding run.mac enrich true/false
+    // BLK design inputted by user (true = WCLL, false = HCPB)
+    if(argc >= 4) {
+        which_blk_design = strcmp(argv[3], "0");
+        std::cout << which_blk_design << "\n\n\n\n\n\n\n";
+    }
+    
+    if(which_blk_design == false) {
+        which_blk_design_str = "HCPB";
+    }
+    
+    // Initialize Geant4 classes
+    MyDetectorConstruction* Detector = new MyDetectorConstruction(Li_enrichment, which_blk_design);
     MySensitiveDetector* SensitiveDetector = new MySensitiveDetector("Tritium_SD");
     
     G4UIExecutive* ui = 0;
@@ -73,7 +87,7 @@ int main(int argc, char* argv[]) {
         } else {
             // outfile.txt does not exist: create a new one with a header
             std::ofstream os("outfile.txt");
-            os << "Li_enr\t# neutr\t# trit\tTBR\n";
+            os << "BLK \t%Li6\t#neutr\t#trit\tTBR\n";
             os.close();
         }
         is.close();
@@ -115,7 +129,7 @@ int main(int argc, char* argv[]) {
                 // Print (append) data to outfile.txt
                 std::ofstream outfile;
                 outfile.open("outfile.txt", std::ios_base::app);
-                outfile << Li_enrichment << '\t' << N_Neutron << '\t' << N_Tritium << '\t' << TBR << '\n';
+                outfile << which_blk_design_str << '\t' << Li_enrichment << "  \t" << N_Neutron << '\t' << N_Tritium << '\t' << TBR << '\n';
                 outfile.close();
                 
                 std::cout << "\n\n\nResults printed on outfile.txt\n\n";

@@ -21,7 +21,7 @@
 // Class called in main() to construct the whole world, detectors and shapes
 class MyDetectorConstruction : public G4VUserDetectorConstruction {
 public:
-    MyDetectorConstruction(G4double enrich);
+    MyDetectorConstruction(G4double enrich, bool which_blk_design);
     ~MyDetectorConstruction();
     
     virtual G4VPhysicalVolume* Construct();
@@ -42,6 +42,10 @@ private:
     
     // Lithium enrichment
     G4double enrichment = 50;
+    
+    // true = WCLL (Water Cooled Lithium Lead)
+    // false = HCPB (Helium Cooled Pebble Bed)
+    bool blk_design = false;
     
     // Materials of the various components
     G4Material *worldMat, *SS316, *plasma_mat, *PbLi, *Li4SiO4, *Be, *Concrete, *CS_mat, *BLK_breeder_mat, *HeatSink_mat, *W, *Filling_mat;

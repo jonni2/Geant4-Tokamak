@@ -1,6 +1,6 @@
 #include "Construction.hh"
 
-MyDetectorConstruction::MyDetectorConstruction(G4double enrich):enrichment{enrich}
+MyDetectorConstruction::MyDetectorConstruction(G4double enrich, bool which_blk_design):enrichment{enrich}, blk_design{which_blk_design}
 {
     // Define the materials once for all
     DefineMaterials();
@@ -165,39 +165,37 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     
     // BREEDING BLANKET for TRITIUM PRODUCTION ////////////////////////
     
-    // Uncomment the following to use HCPB with Be
-    /*
-    // Beryllium moderator in front of Li4SiO4
-    G4Torus* Be_moderator = new G4Torus("Be_moderator", 229*cm, 234*cm, 627*cm, 0*deg, alpha*deg);
+    // HCPB with two Be multiplier layers
+    if(blk_design == false)
+    {
+        // Beryllium moderator in front of Li4SiO4
+        G4Torus* Be_moderator = new G4Torus("Be_moderator", 229*cm, 234*cm, 627*cm, 0*deg, alpha*deg);
+        
+        G4LogicalVolume* logic_Be_moderator = new G4LogicalVolume(Be_moderator, Be, "logic_Be_moderator");
+        
+        G4VPhysicalVolume* phys_Be_moderator = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logic_Be_moderator, "phys_Be_moderator", logicWorld, false, 0, true);
+        
+        
+        // Breeding Blanket volume
+        G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 234*cm, 255*cm, 627*cm, 0*deg, (alpha)*deg);
+        
+        // HCPB (Helium Cooled Pebble Bed)
+        logicBLK_breeder = new G4LogicalVolume(BLK_breeder, Li4SiO4, "logicBLK_breeder");
+        
+        // Second Beryllium layer
+        G4Torus* Be_moderator2 = new G4Torus("Be_moderator2", 255*cm, 260*cm, 627*cm, 0*deg, alpha*deg);
+        
+        G4LogicalVolume* logic_Be_moderator2 = new G4LogicalVolume(Be_moderator2, Be, "logic_Be_moderator2");
+        
+        G4VPhysicalVolume* phys_Be_moderator2 = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logic_Be_moderator2, "phys_Be_moderator2", logicWorld, false, 0, true);
     
-    G4LogicalVolume* logic_Be_moderator = new G4LogicalVolume(Be_moderator, Be, "logic_Be_moderator");
-    
-    G4VPhysicalVolume* phys_Be_moderator = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logic_Be_moderator, "phys_Be_moderator", logicWorld, false, 0, true);
-    
-    
-    // Breeding Blanket volume
-    G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 234*cm, 255*cm, 627*cm, 0*deg, (alpha)*deg);
-    
-    // HCPB (Helium Cooled Pebble Bed)
-    logicBLK_breeder = new G4LogicalVolume(BLK_breeder, Li4SiO4, "logicBLK_breeder");
-    
-    // Second Beryllium layer
-    G4Torus* Be_moderator2 = new G4Torus("Be_moderator2", 255*cm, 260*cm, 627*cm, 0*deg, alpha*deg);
-    
-    G4LogicalVolume* logic_Be_moderator2 = new G4LogicalVolume(Be_moderator2, Be, "logic_Be_moderator2");
-    
-    G4VPhysicalVolume* phys_Be_moderator2 = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logic_Be_moderator2, "phys_Be_moderator2", logicWorld, false, 0, true);
-    
-    */
-    
-    // Uncomment the following to use WCLL (Water Cooled Lithium Lead) Breeding BLK
-    ///*
-    
-    G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 229*cm, 260*cm, 627*cm, 0*deg, (alpha)*deg);
-    
-    
-    logicBLK_breeder = new G4LogicalVolume(BLK_breeder, PbLi, "logicBLK_breeder");
-    //*/
+    } else {
+        
+        // WCLL (Water Cooled Lithium Lead)
+        G4Torus* BLK_breeder = new G4Torus("BLK_breeder", 229*cm, 260*cm, 627*cm, 0*deg, (alpha)*deg);
+        
+        logicBLK_breeder = new G4LogicalVolume(BLK_breeder, PbLi, "logicBLK_breeder");
+    }
     
     G4VPhysicalVolume* physBLK_breeder = new G4PVPlacement(rot, G4ThreeVector(0, 0, 0), logicBLK_breeder, "physBLK_breeder", logicWorld, false, 0, true);
     
