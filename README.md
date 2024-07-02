@@ -97,7 +97,7 @@ docker run -ti tbr_geant4
 
 Inside the container the project can be built as previously mentioned:
 ```
-source /usr/local/share/geant4/install/4.11.1/bin/geant4.sh
+source /usr/local/share/geant4/install/4.*/bin/geant4.sh
 cd Geant4_Tokamak
 mkdir build && cd build
 cmake ..
