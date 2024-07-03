@@ -32,7 +32,6 @@ int main(int argc, char* argv[]) {
     // BLK design inputted by user (true = WCLL, false = HCPB)
     if(argc >= 4) {
         which_blk_design = strcmp(argv[3], "0");
-        std::cout << which_blk_design << "\n\n\n\n\n\n\n";
     }
     
     if(which_blk_design == false) {

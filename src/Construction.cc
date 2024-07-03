@@ -212,11 +212,6 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     G4LogicalVolume* logicVV = new G4LogicalVolume(VV, SS316, "logicVV");
     G4VPhysicalVolume* physVV = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicVV, "physVV", logicWorld, false, 0, true);
     
-    // Toroidal Field Coils (TFC), which are OUTSIDE the VV
-    // G4Torus* TFC = new G4Torus("TFC", 307.1*cm, 407.1*cm, 627*cm, 0*deg, alpha*deg);
-    // G4LogicalVolume* logicTFC = new G4LogicalVolume(TFC, SS316, "logicTFC");
-    // G4VPhysicalVolume* physTFC = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicTFC, "physTFC", logicWorld, false, 0, true);
-    
     
     // 18 Toroidal Field Coils (TFCs)
     G4Tubs* TFCi = new G4Tubs("TFCi", 307.1*cm, 407.1*cm, 30*cm, 0*deg, 360*deg);
@@ -256,7 +251,6 @@ G4VPhysicalVolume* MyDetectorConstruction::Construct()
     // Biological shield (concrete) lateral
     G4Tubs* Bioshield = new G4Tubs("Bioshield", 1413.2*cm, 1613*cm, 1213*cm, 0*deg, alpha*deg);
     
-    // G4Sphere* Bioshield = new G4Sphere("Bioshield", 1413.2*cm, 1613*cm, 0*deg, alpha*deg, 0*deg, 180*deg);
     G4LogicalVolume* logicBioshield_lat = new G4LogicalVolume(Bioshield, Concrete, "logicBioshield_lat");
     
     G4VPhysicalVolume* physBioshield = new G4PVPlacement(rot, G4ThreeVector(0,0,0), logicBioshield_lat, "physBioshield_lat", logicWorld, false, 0, true);

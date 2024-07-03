@@ -25,19 +25,3 @@ MyPhysicsList::~MyPhysicsList()
 
 void MyPhysicsList::SetCuts()
 {}
-
-// here we register all the particles required in the simulation
-// void MyPhysicsList::ConstructParticle()
-// {
-//     // G4Proton::ProtonDefinition();
-//     // G4Geantino::GeantinoDefinition();
-// }
-// 
-// // Here we register all the physical processes required in the simulation
-// void MyPhysicsList::ConstructProcess()
-// {
-//     // Transportation, provided in the base G4VUserPhysicsList class
-//     AddTransportation();
-//     // Electromagnetic process
-//     // ConstructEM();
-// }
